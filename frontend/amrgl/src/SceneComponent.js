@@ -1,4 +1,5 @@
 import { Engine, Scene } from '@babylonjs/core'
+
 import React, { useEffect, useRef } from 'react'
 export default (props) => {
     const reactCanvas = useRef(null);
@@ -22,6 +23,9 @@ export default (props) => {
                 scene.render();
             })
             const resize = () => {
+                const newWidth = window.innerWidth;
+                const newHeight = window.innerHeight;
+                engine.setSize(newWidth, newHeight);
                 scene.getEngine().resize();
             }
             if (window) {
