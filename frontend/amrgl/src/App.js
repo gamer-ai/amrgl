@@ -1,14 +1,15 @@
 import React from 'react';
 import ViewPortComponent from './ViewPortComponent';
-import Nav from './NavigationComponent';
-import './NavigationComponent.css';
+import AddIcon from '@material-ui/icons/Add';
+import './button.css';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <Nav className = "Nav"></Nav>
-      <ViewPortComponent></ViewPortComponent>
+      <button id = "floatingButton" className="round select" ><AddIcon></AddIcon></button>
+      <ViewPortComponent>
+      </ViewPortComponent>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { Engine, Scene } from '@babylonjs/core'
+import { Engine, Scene, Color3} from '@babylonjs/core'
 import React, { useEffect, useRef } from 'react'
 
 const SceneComponent = (props) => {
@@ -10,6 +10,7 @@ const SceneComponent = (props) => {
         if (reactCanvas.current) {
             const engine = new Engine(reactCanvas.current, antialias, engineOptions, adaptToDeviceRatio);
             const scene = new Scene(engine, sceneOptions);
+            scene.clearColor = new Color3(0.45, 0.45, 0.45);
             engine.setSize(width, height);
             if (scene.isReady()) {
                 props.onSceneReady(scene)
