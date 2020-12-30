@@ -4,6 +4,7 @@ import {GridMaterial} from '@babylonjs/materials';
 import SceneComponent from './SceneComponent';
 import './ViewPortComponent.css';
 
+
 let box;
 const onSceneReady = scene => {
   // This creates and positions a free camera (non-mesh)
@@ -27,7 +28,7 @@ const onSceneReady = scene => {
   var ground = MeshBuilder.CreateGround("ground", {width: 6000, height: 6000}, scene);
   var groundMaterial = new GridMaterial("groundMaterial", scene);
 	groundMaterial.majorUnitFrequency = 20; 
-	groundMaterial.minorUnitVisibility = 0.1;
+	groundMaterial.minorUnitVisibility = 0.5;
 	groundMaterial.gridRatio = 50; //smallest block size
 	groundMaterial.backFaceCulling = false;
 	groundMaterial.mainColor = new Color3(1, 1, 1);
@@ -49,7 +50,8 @@ const onRender = scene => {
 }
 
 const ViewPortComponent = () => (
-    <SceneComponent antialias onSceneReady={onSceneReady} onRender={onRender} id='viewport' />
+    <SceneComponent antialias onSceneReady={onSceneReady} onRender={onRender} id='viewport'>
+    </SceneComponent>
 )
 
 export default ViewPortComponent;
