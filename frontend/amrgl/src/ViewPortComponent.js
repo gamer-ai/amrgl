@@ -2,8 +2,6 @@ import React from 'react';
 import { ArcRotateCamera, Color3,Vector3, HemisphericLight, MeshBuilder} from '@babylonjs/core';
 import {GridMaterial} from '@babylonjs/materials';
 import SceneComponent from './SceneComponent';
-import AddIcon from '@material-ui/icons/Add';
-import './button.css';
 import './ViewPortComponent.css';
 
 
@@ -52,11 +50,8 @@ const onRender = scene => {
 }
 
 const ViewPortComponent = () => (
-  <div>
-  <button id = "floatingButton" className="round select" ><AddIcon></AddIcon></button>
     <SceneComponent antialias onSceneReady={onSceneReady} onRender={onRender} id='viewport'>
     </SceneComponent>
-  </div>
 )
 
 export default ViewPortComponent;

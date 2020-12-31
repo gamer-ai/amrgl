@@ -3,8 +3,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import NavigationIcon from '@material-ui/icons/Navigation';
+import SetIcon from '@material-ui/icons/TuneTwoTone';
+import DownloadIcon from '@material-ui/icons/GetAppRounded';
+import DeleteIcon from '@material-ui/icons/Delete';
+import { PickingInfo } from '@babylonjs/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,18 +24,20 @@ export default function FloatingActionButtons() {
 
   return (
     <div className={classes.root}>
-      <Fab color="primary" aria-label="add">
+      <Fab size="small">
+        <SetIcon  aria-label="setting"/>
+      </Fab>
+      <Fab size="small"  aria-label="add">
         <AddIcon />
       </Fab>
-      <Fab color="secondary" aria-label="edit">
+      <Fab size="small"  aria-label="edit">
         <EditIcon />
       </Fab>
-      <Fab variant="extended">
-        <NavigationIcon className={classes.extendedIcon} />
-        Navigate
+      <Fab size="small"  aria-label="delete">
+        <DeleteIcon />
       </Fab>
-      <Fab disabled aria-label="like">
-        <FavoriteIcon />
+      <Fab size="small" aria-label="download">
+        <DownloadIcon />
       </Fab>
     </div>
   );

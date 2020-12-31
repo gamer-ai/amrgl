@@ -16,3 +16,18 @@
 .App-link {
   color: #61dafb;
 }
+.BottomView{
+  z-index: -1;
+  position: absolute;
+}
+.TopView{
+  z-index: 9999;
+  position: absolute;
+}
+.Scaleline{
+  position: absolute; /* or absolute */
+  top: 95%;
+  left: 50%;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}

@@ -41,7 +41,7 @@ const SceneComponent = (props) => {
         }
     }, [reactCanvas])
     return (
-        <canvas ref={reactCanvas} {...rest} />
+        <canvas  ref={reactCanvas} {...rest} />
     );
 }
 
