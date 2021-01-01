@@ -1,9 +1,9 @@
 import React from 'react';
-import ViewPortComponent from './ViewPortComponent';
-import Nav from './NavigationComponent';
-import Scaleline from './ScalelineComponent';
-import './NavigationComponent.css';
-import Footer from './FooterComponent';
+import ViewPortComponent from './components/viewer/ViewPortComponent';
+import Nav from './components/navigation/NavigationComponent';
+import Scaleline from './components/viewer/ScalelineComponent';
+import './components/navigation/NavigationComponent.css';
+import Footer from './components/footer/FooterComponent';
 import './App.css';
 
 function App() {
