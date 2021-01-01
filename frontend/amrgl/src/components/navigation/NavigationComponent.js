@@ -7,6 +7,7 @@ import SetIcon from '@material-ui/icons/TuneTwoTone';
 import DownloadIcon from '@material-ui/icons/GetAppRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { PickingInfo } from '@babylonjs/core';
+import Setting from '../settingtable/SettingComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +40,7 @@ export default function FloatingActionButtons() {
       <Fab size="small" aria-label="download">
         <DownloadIcon />
       </Fab>
+      <Setting></Setting>
     </div>
   );
 }

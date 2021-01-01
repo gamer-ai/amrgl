@@ -5,7 +5,7 @@ import SceneComponent from './SceneComponent';
 import './ViewPortComponent.css';
 
 
-let box;
+// let box;
 const onSceneReady = scene => {
   // This creates and positions a free camera (non-mesh)
   var camera = new ArcRotateCamera("mainCamera", 0, 0, 10, new Vector3(0, 0, 0), scene);
@@ -20,14 +20,14 @@ const onSceneReady = scene => {
   // Default intensity is 1. Let's dim the light a small amount
   light.intensity = 0.7;
   // Our built-in 'box' shape.
-  box = MeshBuilder.CreateBox("box", {size: 100}, scene);
+  // box = MeshBuilder.CreateBox("box", {size: 100}, scene);
   // Move the box upward 1/2 its height
-  box.position.y = 50;
+  // box.position.y = 50;
   // Our built-in 'ground' shape.
 
   var ground = MeshBuilder.CreateGround("ground", {width: 6000, height: 6000}, scene);
   var groundMaterial = new GridMaterial("groundMaterial", scene);
-	groundMaterial.majorUnitFrequency = 20; 
+	groundMaterial.majorUnitFrequency = 10; 
 	groundMaterial.minorUnitVisibility = 0.5;
 	groundMaterial.gridRatio = 50; //smallest block size
 	groundMaterial.backFaceCulling = false;
