@@ -1,0 +1,11 @@
+
+.BottomView{
+    z-index: -1;
+    position: absolute;
+  }
+.Navigation{
+    left: 3%;
+    top: 3%;
+    z-index: 9999;
+    position: absolute;
+  }

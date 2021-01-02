@@ -16,14 +16,7 @@
 .App-link {
   color: #61dafb;
 }
-.BottomView{
-  z-index: -1;
-  position: absolute;
-}
-.Navigation{
-  z-index: 9999;
-  position: absolute;
-}
+
 .Scaleline{
   position: absolute; 
   bottom: 3%;
@@ -38,3 +31,5 @@
   right: 1%;
   z-index: 9999;
 }
+
+
