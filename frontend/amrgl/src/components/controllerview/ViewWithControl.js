@@ -33,7 +33,7 @@ export default function FloatingActionButtons() {
   } );
 
   const changeSettings = data => {
-    setSettings({ planesize: data.planesize, gridsize: data.gridsize })
+    setSettings({ planesize: Number(data.planesize), gridsize: Number(data.gridsize) })
 
   };
   const [values, setValues] = React.useState({

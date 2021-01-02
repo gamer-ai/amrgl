@@ -52,28 +52,33 @@ import './ViewPortComponent.css';
 
 const ViewPortComponent = props => {
   // console.log(props.children.planesize)
+  // console.log(props)
   const [settingData, setSettings] = React.useState( {
-    planesize: props.children.planesize,
-    gridsize: props.children.gridsize,
+    planesize: 6000,
+    gridsize: 50,
     confirmed: false,
   } );
+
+  if (props.children.planesize !== settingData.planesize){
+    setSettings({
+      planesize: props.children.planesize,
+      gridsize: props.children.gridsize,
+      confirmed: false,
+    })
+  }
   
   const [scene, setScene] = React.useState(null);
 
   React.useEffect( () => {
-    // if (props){
-    //   setSettings({
-    //     planesize: props.children.planesize,
-    //     gridsize: props.children.gridsize,
-    //     confirmed: false,
-    //   })
-    // }
-})
 
 
-  const onSceneReady = scene => {
+    })
+
+ 
+  const onSceneReady = (scene) => {
     // This creates and positions a free camera (non-mesh)
-    var camera = new ArcRotateCamera("mainCamera", 0, 0, 10, new Vector3(0, 0, 0), scene);
+    // console.log(settingData.planesize)
+    let camera = new ArcRotateCamera("mainCamera", 0, 0, 10, new Vector3(0, 0, 0), scene);
     // This targets the camera to scene origin
     camera.setPosition(new Vector3(0, 500, -600));
 
@@ -82,7 +87,7 @@ const ViewPortComponent = props => {
     // This attaches the camera to the canvas
     camera.attachControl(canvas, true);
     // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
-    var light = new HemisphericLight("light", new Vector3(0, 500, 0), scene);
+    let light = new HemisphericLight("light", new Vector3(0, 500, 0), scene);
     // Default intensity is 1. Let's dim the light a small amount
     light.intensity = 0.7;
     // Our built-in 'box' shape.
@@ -90,9 +95,9 @@ const ViewPortComponent = props => {
     // Move the box upward 1/2 its height
     // box.position.y = 50;
     // Our built-in 'ground' shape.
-  
-    var ground = MeshBuilder.CreateGround("ground", {width: settingData.planesize, height: settingData.planesize}, scene);
-    var groundMaterial = new GridMaterial("groundMaterial", scene);
+    
+    let ground = MeshBuilder.CreateGround("ground", {width: settingData.planesize, height: settingData.planesize}, scene);
+    let groundMaterial = new GridMaterial("groundMaterial", scene);
     groundMaterial.majorUnitFrequency = 10; 
     groundMaterial.minorUnitVisibility = 0.5;
     groundMaterial.gridRatio = settingData.gridsize; //smallest block size
@@ -108,6 +113,9 @@ const ViewPortComponent = props => {
    * Will run on every frame render.  We are spinning the box on y-axis.
    */
   const onRender = scene => {
+    // if (settingData.planesize !== ground.width){
+    //   console.log(ground.width)
+    // }
     // if (box !== undefined) {
     //   // var deltaTimeInMillis = scene.getEngine().getDeltaTime();
     //   // const rpm = 10;
