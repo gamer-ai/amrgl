@@ -9,6 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Setting from './settingtable/SettingComponent';
 import ViewPort from './viewer/ViewPortComponent';
 import './ViewWithControl.css'
+import Scaleline from './viewer/ScalelineComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,12 +24,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FloatingActionButtons() {
   const classes = useStyles();
-  const eventhandler = data => console.log(data);
+
+
+  const [settingData, setSettings] = React.useState( {
+    planesize: 6000,
+    gridsize: 50,
+    confirmed: false,
+  } );
+
+  const changeSettings = data => {
+    setSettings({ planesize: data.planesize, gridsize: data.gridsize })
+
+  };
   const [values, setValues] = React.useState({
     showAdd: false,
     showSettings: false,
     showEdit: false,
   });
+ 
 
   const handleSettingClick = () => {
     setValues({ showEdit: false, showAdd: false, showSettings: !values.showSettings });
@@ -54,12 +67,13 @@ export default function FloatingActionButtons() {
       <Fab size="small" aria-label="download">
         <DownloadIcon />
       </Fab>
-      {values.showSettings && <div className ="SettingTable"><Setting onChange={eventhandler}></Setting></div>}
+      {values.showSettings && <div className ="SettingTable"><Setting onChange={changeSettings}></Setting></div>}
       </div>
     </div>
       <div className = "BottomView">
-      <ViewPort></ViewPort>
+      <ViewPort >{settingData}</ViewPort>
       </div>
+      <div className ="Scaleline"><Scaleline>{settingData}</Scaleline></div>
     </div>
 
   );

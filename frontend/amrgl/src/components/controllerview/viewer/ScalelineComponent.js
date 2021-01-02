@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function VerticalDividers() {
+const ScaleLine = props => {
+// export default function VerticalDividers() {
   const classes = useStyles();
 
   return (
@@ -27,12 +28,13 @@ export default function VerticalDividers() {
       <Grid container alignItems="left" className={classes.root}>
               plane:
         <Divider orientation="vertical" flexItem />
-                1000
+                {props.children.planesize}
         <Divider orientation="vertical" flexItem />
               grid:  
         <Divider orientation="vertical" flexItem />
-                10
+            {props.children.gridsize}
       </Grid>
     </div>
   );
 }
+export default ScaleLine;

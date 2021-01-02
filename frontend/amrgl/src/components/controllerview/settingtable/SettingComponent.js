@@ -11,7 +11,8 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   margin: {
-    margin: theme.spacing(1),
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
   },
   textField: {
     width: '12ch',

@@ -10,3 +10,11 @@
     z-index: 9999;
     position: absolute;
   }
+.Scaleline{
+    position: absolute; 
+    bottom: 3%;
+    left: 50%;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+  }
+  

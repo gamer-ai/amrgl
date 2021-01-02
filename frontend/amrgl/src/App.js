@@ -9,9 +9,6 @@ function App() {
   return (
     <div className="App">
       <View></View>
-      <div className = "Scaleline">
-      <Scaleline></Scaleline>
-      </div>
       <div className = "Footer">
       <Footer></Footer>
       </div>
