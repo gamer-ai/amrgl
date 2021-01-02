@@ -5,6 +5,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import Confirm from '@material-ui/icons/Check';
+import Button from '@material-ui/core/Button';
+import Grid from '@material-ui/core/Grid';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -25,15 +27,17 @@ const GridSettings = props =>{
   const [values, setValues] = React.useState({
     planesize:'',
     gridsize: '',
+    confirmed: false,
 
   });
 
   const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
+    setValues({ ...values, [prop]: event.target.value, confirmed: false});
     //handle child state change
   };
 
   const handleClickConfirm = ()=> {
+    setValues({ ...values, confirmed: true });
     if (props.onChange) {
         props.onChange(values);
       }
@@ -46,37 +50,44 @@ const GridSettings = props =>{
   return (
     <div className={classes.root}>
       <div>
-        <TextField
-          size = "small"
-          id="filled-secondary"
-          variant="filled"
-          color="secondary"
-          label="plane size"
-          type="number"
-          onChange={handleChange('planesize')}
-          className={clsx(classes.margin, classes.textField)}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">inch</InputAdornment>,
-          }}
-        />
-        <TextField
-          size = "small"
-          id="filled-secondary"
-          variant="filled"
-          color="secondary"
-          label="grid size"
-          type="number"
-          onChange={handleChange('gridsize')}
-          className={clsx(classes.margin, classes.textField)}
-          InputProps={{
-            startAdornment: <InputAdornment position="start">inch</InputAdornment>,
-          }}
-        />
-         <Fab size="small" color = "secondary" aria-label="confirm">
-            <Confirm onClick = {handleClickConfirm}/>
-        </Fab>
+      <Grid container direction="row" alignItems="center">
+        <Grid item>
+          <TextField
+                size = "small"
+                id="filled-secondary"
+                variant="filled"
+                color="secondary"
+                label="plane size"
+                type="number"
+                onChange={handleChange('planesize')}
+                className={clsx(classes.margin, classes.textField)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">inch</InputAdornment>,
+                }}
+              />
+        </Grid>
+        <Grid item>
+          <TextField
+                  size = "small"
+                  id="filled-secondary"
+                  variant="filled"
+                  color="secondary"
+                  label="grid size"
+                  type="number"
+                  onChange={handleChange('gridsize')}
+                  className={clsx(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">inch</InputAdornment>,
+                  }}
+                />
+        </Grid>
+        <Grid item>
+          <Fab size="small" color = "secondary" aria-label="confirm" onClick = {handleClickConfirm} color = {values.confirmed ? "primary" : "default" }>
+              <Confirm />
+          </Fab>
+        </Grid>
+      </Grid>
       </div>
-
     </div>
   );
 }

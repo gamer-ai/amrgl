@@ -4,6 +4,7 @@
     position: absolute;
   }
 .Navigation{
+   text-align: left;
     left: 3%;
     top: 3%;
     z-index: 9999;

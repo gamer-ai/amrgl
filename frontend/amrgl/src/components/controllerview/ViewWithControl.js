@@ -10,19 +10,19 @@ import Setting from './settingtable/SettingComponent';
 import ViewPort from './viewer/ViewPortComponent';
 import './ViewWithControl.css'
 
-// const useStyles = makeStyles((theme) => ({
-//   // root: {
-//   //   // '& > *': {
-//   //   //   margin: theme.spacing(1),
-//   //   // },
-//   // },
-//   // extendedIcon: {
-//   //   marginRight: theme.spacing(2),
-//   // },
-// }));
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      marginRight: theme.spacing(2),
+    },
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(2),
+  },
+}));
 
 export default function FloatingActionButtons() {
-  // const classes = useStyles();
+  const classes = useStyles();
   const eventhandler = data => console.log(data);
   const [values, setValues] = React.useState({
     showAdd: false,
@@ -36,9 +36,10 @@ export default function FloatingActionButtons() {
 
   return (
     
-    <div >
+    <div>
+      <div className = {classes.root}>
       <div className = "Navigation">
-      <Fab size="small" onClick={handleSettingClick} >
+      <Fab  size="small"  color = {values.showSettings ? "primary" : "default" } onClick={handleSettingClick} >
         <SetIcon  aria-label="setting"/>
       </Fab>
       <Fab size="small"  aria-label="add">
@@ -54,6 +55,7 @@ export default function FloatingActionButtons() {
         <DownloadIcon />
       </Fab>
       {values.showSettings && <div className ="SettingTable"><Setting onChange={eventhandler}></Setting></div>}
+      </div>
     </div>
       <div className = "BottomView">
       <ViewPort></ViewPort>

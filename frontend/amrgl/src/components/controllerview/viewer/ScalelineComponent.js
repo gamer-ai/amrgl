@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: 'fit-content',
     border: `1px solid ${theme.palette.divider}`,
-    borderRadius: theme.shape.borderRadius,
+    // borderRadius: theme.shape.borderRadius,
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.secondary,
     '& svg': {
@@ -25,11 +25,13 @@ export default function VerticalDividers() {
   return (
     <div>
       <Grid container alignItems="left" className={classes.root}>
-              unit:
+              plane:
+        <Divider orientation="vertical" flexItem />
+                1000
+        <Divider orientation="vertical" flexItem />
+              grid:  
         <Divider orientation="vertical" flexItem />
                 10
-        <Divider orientation="vertical" flexItem />
-                mm   
       </Grid>
     </div>
   );
