@@ -13,11 +13,13 @@ const ViewPortComponent = props => {
       if(scene){
         // modify the plane, by dispose and rebuild adding to scene.
         if (settingData.gridChange){
+        console.log('grid change request')
         const prePlane = scene.getMeshByID('plane')
         const prePlaneMaterial = scene.getMaterialByID('groundMaterial')
         if (prePlane._width != settingData.planesize || prePlaneMaterial.gridRatio != settingData.gridsize
           ){
           prePlane.dispose()
+          prePlaneMaterial.dispose()
           let ground = MeshBuilder.CreateGround("plane", {width: settingData.planesize, height: settingData.planesize}, scene);
           let groundMaterial = new GridMaterial("groundMaterial", scene);
           groundMaterial.majorUnitFrequency = 10; 
@@ -29,9 +31,14 @@ const ViewPortComponent = props => {
           groundMaterial.opacity = 0.98;
           ground.material = groundMaterial;
         }
-        setSettings({...settingData, gridChange: false})
-      }
 
+        setSettings({...settingData, gridChange: false,})
+      }
+      if (settingData.colorChange){
+        console.log('color change request')
+        scene.clearColor = new Color3(settingData.lightR, settingData.lightG, settingData.lightB);
+        setSettings({...settingData, colorChange: false,})
+      }
 
       }
 

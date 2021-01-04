@@ -31,15 +31,27 @@ export default function FloatingActionButtons() {
     gridsize: 50,
     gridChange: false,
     confirmed: false,
+    lightR: 0.45,
+    lightG: 0.45,
+    lightB: 0.45,
+    colorChange: false,
   } );
+  
 
   const changeSettings = data => {
     if (data.planesize != settingData.planesize || data.gridsize != settingData.gridsize){
+    // if (data.gridChange){
       console.log('a grid change happened')
-      setSettings({ planesize: Number(data.planesize), gridsize: Number(data.gridsize), gridChange: true})
-  }    else{
-    console.log('no need for a grid change')
-  }
+      setSettings({ ...data, gridChange: true, colorChange: false})
+  }    
+    else if (data.lightR != settingData.lightR || data.lightB != settingData.lightB || data.lightG != settingData.lightG){
+    // else if (data.colorChange){
+    console.log('a scene color change happened')
+      setSettings({...data, colorChange: true, gridChange: false})
+    }
+    else{
+      console.log('no change needed')
+    }
 
   };
   const [values, setValues] = React.useState({
