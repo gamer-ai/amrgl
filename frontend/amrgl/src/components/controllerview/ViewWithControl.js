@@ -10,6 +10,7 @@ import Setting from './settingtable/SettingComponent';
 import ViewPort from './viewer/ViewPortComponent';
 import './ViewWithControl.css'
 import Scaleline from './viewer/ScalelineComponent';
+import Add from './addtable/AddComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +38,21 @@ export default function FloatingActionButtons() {
     colorChange: false,
   } );
   
+  const [addData, setAdd] = React.useState({
+    primetype: '',
+    primename: '',
+    addnew: false,
+  });
+
+  const changeAdd = data => {
+    if (data.primetype != addData.primetype){
+    // if (data.gridChange){
+      console.log(data)
+      setAdd({ ...data, addnew:true})
+  } 
+
+  };
+
 
   const changeSettings = data => {
     if (data.planesize != settingData.planesize || data.gridsize != settingData.gridsize){
@@ -64,6 +80,9 @@ export default function FloatingActionButtons() {
   const handleSettingClick = () => {
     setValues({ showEdit: false, showAdd: false, showSettings: !values.showSettings });
   };
+  const handleAddClick = () => {
+    setValues({ showEdit: false, showAdd: !values.showAdd, showSettings: false });
+  };
 
   return (
     
@@ -73,7 +92,7 @@ export default function FloatingActionButtons() {
       <Fab  size="small"  color = {values.showSettings ? "primary" : "default" } onClick={handleSettingClick} >
         <SetIcon  aria-label="setting"/>
       </Fab>
-      <Fab size="small"  aria-label="add">
+      <Fab size="small"  aria-label="add" color = {values.showAdd ? "primary" : "default" } onClick={handleAddClick}>
         <AddIcon />
       </Fab>
       <Fab size="small"  aria-label="edit">
@@ -86,6 +105,7 @@ export default function FloatingActionButtons() {
         <DownloadIcon />
       </Fab>
       {values.showSettings && <div className ="SettingTable"><Setting onChange={changeSettings}></Setting></div>}
+      {values.showAdd && <div className ="AddTable"><Add onChange={changeAdd} ></Add></div>}
       </div>
     </div>
       <div className = "BottomView">
