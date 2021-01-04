@@ -29,11 +29,17 @@ export default function FloatingActionButtons() {
   const [settingData, setSettings] = React.useState( {
     planesize: 6000,
     gridsize: 50,
+    gridChange: false,
     confirmed: false,
   } );
 
   const changeSettings = data => {
-    setSettings({ planesize: Number(data.planesize), gridsize: Number(data.gridsize) })
+    if (data.planesize != settingData.planesize || data.gridsize != settingData.gridsize){
+      console.log('a grid change happened')
+      setSettings({ planesize: Number(data.planesize), gridsize: Number(data.gridsize), gridChange: true})
+  }    else{
+    console.log('no need for a grid change')
+  }
 
   };
   const [values, setValues] = React.useState({
@@ -71,7 +77,7 @@ export default function FloatingActionButtons() {
       </div>
     </div>
       <div className = "BottomView">
-      <ViewPort >{settingData}</ViewPort>
+      <ViewPort settingData = {settingData} setSettings = {setSettings}/>
       </div>
       <div className ="Scaleline"><Scaleline>{settingData}</Scaleline></div>
     </div>

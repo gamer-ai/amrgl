@@ -1,6 +1,5 @@
 import React from 'react';
 import View from './components/controllerview/ViewWithControl';
-import Scaleline from './components/controllerview/viewer/ScalelineComponent';
 import './components/controllerview/ViewWithControl.css';
 import Footer from './components/footer/FooterComponent';
 import './App.css';

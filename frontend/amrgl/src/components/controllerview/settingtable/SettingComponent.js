@@ -5,7 +5,6 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import Confirm from '@material-ui/icons/Check';
-import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 
 
@@ -28,17 +27,16 @@ const GridSettings = props =>{
   const [values, setValues] = React.useState({
     planesize:'',
     gridsize: '',
-    confirmed: false,
-
+    gridChange: false,
   });
 
   const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value, confirmed: false});
+    setValues({ ...values, [prop]: event.target.value, gridChange: false});
     //handle child state change
   };
 
   const handleClickConfirm = ()=> {
-    setValues({ ...values, confirmed: true });
+    setValues({ ...values, gridChange: true });
     if (props.onChange) {
         props.onChange(values);
       }
@@ -55,7 +53,7 @@ const GridSettings = props =>{
         <Grid item>
           <TextField
                 size = "small"
-                id="filled-secondary"
+                id="filled-secondary-planesize"
                 variant="filled"
                 color="secondary"
                 label="plane size"
@@ -70,7 +68,7 @@ const GridSettings = props =>{
         <Grid item>
           <TextField
                   size = "small"
-                  id="filled-secondary"
+                  id="filled-secondary-gridsize"
                   variant="filled"
                   color="secondary"
                   label="grid size"
@@ -83,7 +81,7 @@ const GridSettings = props =>{
                 />
         </Grid>
         <Grid item>
-          <Fab size="small" color = "secondary" aria-label="confirm" onClick = {handleClickConfirm} color = {values.confirmed ? "primary" : "default" }>
+          <Fab size="small" color = "secondary" aria-label="confirm" onClick = {handleClickConfirm} color = {values.gridChange ? "primary" : "default" }>
               <Confirm />
           </Fab>
         </Grid>
