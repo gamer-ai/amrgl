@@ -5,7 +5,7 @@ import SceneComponent from './SceneComponent';
 import './ViewPortComponent.css';
 
 const ViewPortComponent = props => {
-  const { settingData, setSettings } = props;
+  const { settingData, setSettings, addData, setAdd } = props;
   const sceneRef = React.useRef(null);
   
   React.useEffect( () => {
@@ -39,10 +39,24 @@ const ViewPortComponent = props => {
         scene.clearColor = new Color3(settingData.lightR, settingData.lightG, settingData.lightB);
         setSettings({...settingData, colorChange: false,})
       }
+      if (addData.addnew){
+        console.log('add new prime request')
+        const preBox = scene.getMeshByID(addData.primename)
+        if (preBox){
+          alert('Reminder: are you going to make changes to existing prime, name : ' + addData.primename + ' ?')
+          preBox.dispose()
+          //removed, need to untrack
+        }
+        let box = MeshBuilder.CreateBox(addData.primename, {size: 1}, scene);
+        box.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
+        box.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
+        setAdd({...addData, addnew:false})
+        //Added, need to track
+      }
 
       }
 
-    }, [settingData]);
+    }, [settingData, addData]);
 
 
   

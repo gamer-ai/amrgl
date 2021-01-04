@@ -34,15 +34,26 @@ const useStyles = makeStyles((theme) => ({
         primetype: '',
         primename: '',
         addnew: false,
+        positionx: null,
+        positiony: null,
+        positionz: null,
+        scalex: null,
+        scaley: null,
+        scalez: null,
       });
     
       const handlePrimeChange = (event) => {
         const name = event.target.name;
         console.log(name)
-        setPrime({ ...primeData, [name]: event.target.value});
+        setPrime({ ...primeData, [name]: event.target.value, addnew:false});
         //handle child state change
       };
   
+      const handlePositionChange = (prop) => (event) => {
+        setPrime({ ...primeData, [prop]: event.target.value, addnew: false});
+        //handle child state change
+      };
+
       const handleClickAddConfirm = ()=> {
         setPrime({ ...primeData, addnew: true });
         if (props.onChange) {
@@ -54,59 +65,81 @@ const useStyles = makeStyles((theme) => ({
       <div>
         <div className = {classes.margin}></div>
         <Grid container direction="row" alignItems="center">
-        <Grid item>
-        <FormControl size="small" variant="filled" className={classes.textField}>
-          <InputLabel htmlFor="filled-age-native-simple">+ Primes</InputLabel>
-          <Select
-            native
-            value={primeData.primetype}
-            onChange={handlePrimeChange}
-            inputProps={{
-              name: 'primetype',
-              id: 'filled-primes-native-simple',
-            }}
-          >
-            <option aria-label="None" value="" />
-            <option value={'BOX'}>BOX</option>
-          </Select>
-        </FormControl>
+          <Grid item>
+          <FormControl size="small" variant="filled" className={classes.textField}>
+            <InputLabel htmlFor="filled-age-native-simple">+ Primes</InputLabel>
+            <Select
+              native
+              value={primeData.primetype}
+              onChange={handlePrimeChange}
+              inputProps={{
+                name: 'primetype',
+                id: 'filled-primes-native-simple',
+              }}
+            >
+              <option aria-label="None" value="" />
+              <option value={'BOX'}>BOX</option>
+            </Select>
+          </FormControl>
+          </Grid>
+          <Grid item>
+          <Button size = "small" disabled style={{ color: "black" }}> All Fields Required</Button>
         </Grid>
         </Grid>
         <div>
+      <Grid container direction="row" alignItems="left">
+
+      <Grid item>
       <Grid container direction="column" alignItems="left">
-        <Grid item>
+          <Grid item>
           <TextField
                 size = "small"
-                id="filled-secondary-x"
+                id="filled-secondary-name"
                 variant="filled"
                 color="secondary"
-                label="center position"
-                type="number"
+                label="object name"
+                type="string"
                 // defaultValue = {values.planesize}
-                // onChange={handleGridChange('planesize')}
+                onChange={handlePositionChange('primename')}
                 className={clsx(classes.margin, classes.textField)}
                 InputProps={{
-                  startAdornment: <InputAdornment position="start">X:</InputAdornment>,
+                  // startAdornment: <InputAdornment position="start">required:</InputAdornment>,
                 }}
               />
-        </Grid>
-        <Grid item>
-          <TextField
+          </Grid>
+          <Grid item>
+            <TextField
                   size = "small"
-                  id="filled-secondary-y"
+                  id="filled-secondary-x"
                   variant="filled"
                   color="secondary"
                   label="center position"
                   type="number"
-                // //   onChange={handleGridChange('gridsize')}
-                //   defaultValue = {values.gridsize}
+                  // defaultValue = {values.planesize}
+                  onChange={handlePositionChange('positionx')}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
-                    startAdornment: <InputAdornment position="start">Y:</InputAdornment>,
+                    startAdornment: <InputAdornment position="start">X:</InputAdornment>,
                   }}
                 />
-        </Grid>
-        <Grid item>
+          </Grid>
+          <Grid item>
+            <TextField
+                    size = "small"
+                    id="filled-secondary-y"
+                    variant="filled"
+                    color="secondary"
+                    label="center position"
+                    type="number"
+                    onChange={handlePositionChange('positiony')}
+                  //   defaultValue = {values.gridsize}
+                    className={clsx(classes.margin, classes.textField)}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">Y:</InputAdornment>,
+                    }}
+                  />
+          </Grid>
+          <Grid item>
           <TextField
                   size = "small"
                   id="filled-secondary-z"
@@ -114,7 +147,7 @@ const useStyles = makeStyles((theme) => ({
                   color="secondary"
                   label="center position"
                   type="number"
-                // //   onChange={handleGridChange('gridsize')}
+                  onChange={handlePositionChange('positionz')}
                 //   defaultValue = {values.gridsize}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
@@ -122,13 +155,74 @@ const useStyles = makeStyles((theme) => ({
                   }}
                 />
         </Grid>
-        <div className = {classes.margin}></div>
-        <Grid item>
-        <Fab size="small" color = "secondary" aria-label="confirm grid" onClick = {handleClickAddConfirm} color = {primeData.addnew ? "primary" : "default" }>
-              <Confirm />
-          </Fab>
         </Grid>
-      </Grid>
+        </Grid>
+
+
+        <Grid item>
+      <Grid container direction="column" alignItems="left">
+          <Grid item>
+            <TextField
+                  size = "small"
+                  id="filled-secondary-x"
+                  variant="filled"
+                  color="secondary"
+                  label="scale-x"
+                  type="number"
+                  // defaultValue = {values.planesize}
+                  onChange={handlePositionChange('scalex')}
+                  className={clsx(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">X:</InputAdornment>,
+                  }}
+                />
+            </Grid>
+            <Grid item>
+            <TextField
+                    size = "small"
+                    id="filled-secondary-y"
+                    variant="filled"
+                    color="secondary"
+                    label="scale-y"
+                    type="number"
+                    onChange={handlePositionChange('scaley')}
+                  //   defaultValue = {values.gridsize}
+                    className={clsx(classes.margin, classes.textField)}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">Y:</InputAdornment>,
+                    }}
+                  />
+            </Grid>
+            <Grid item>
+            <TextField
+                    size = "small"
+                    id="filled-secondary-z"
+                    variant="filled"
+                    color="secondary"
+                    label="scale-z"
+                    type="number"
+                    onChange={handlePositionChange('scalez')}
+                  //   defaultValue = {values.gridsize}
+                    className={clsx(classes.margin, classes.textField)}
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start">Z:</InputAdornment>,
+                    }}
+                  />
+            </Grid>
+            <div className = {classes.margin}></div>
+            <Grid item>
+            <Fab size="small" color = "secondary" aria-label="confirm grid" onClick = {handleClickAddConfirm} color = {primeData.addnew ? "primary" : "default" }>
+                  <Confirm />
+              </Fab>
+            </Grid>
+            </Grid>
+        </Grid>
+        </Grid>
+                  
+
+
+        
+
       </div>
       </div>
     );

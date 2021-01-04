@@ -42,10 +42,16 @@ export default function FloatingActionButtons() {
     primetype: '',
     primename: '',
     addnew: false,
+    positionx: null,
+    positiony: null,
+    positionz: null,
+    scalex: null,
+    scaley: null,
+    scalez: null,
   });
 
   const changeAdd = data => {
-    if (data.primetype != addData.primetype){
+    if (data.primetype != addData.primetype || data.primename != addData.primename || data.positionx != addData.positionx || data.positiony != addData.positiony || data.positionz != addData.positionz || data.scalex != addData.scalex || data.scalez != addData.scalez || data.scaley != addData.scaley){
     // if (data.gridChange){
       console.log(data)
       setAdd({ ...data, addnew:true})
@@ -109,7 +115,7 @@ export default function FloatingActionButtons() {
       </div>
     </div>
       <div className = "BottomView">
-      <ViewPort settingData = {settingData} setSettings = {setSettings}/>
+      <ViewPort settingData = {settingData} setSettings = {setSettings} addData = {addData} setAdd = {setAdd}/>
       </div>
       <div className ="Scaleline"><Scaleline>{settingData}</Scaleline></div>
     </div>
