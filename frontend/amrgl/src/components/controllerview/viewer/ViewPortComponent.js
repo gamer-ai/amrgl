@@ -89,6 +89,7 @@ const ViewPortComponent = props => {
         const preSphere = scene.getMeshByID(addData.primename)
         if (preSphere){
           Swal.fire({
+            position: 'top',
             text: 'Do you want to edit an existing object, name: ' + addData.primename + ' ?',
             showDenyButton: true,
             background: "black",
@@ -127,6 +128,7 @@ const ViewPortComponent = props => {
         const preCylinder = scene.getMeshByID(addData.primename)
         if (preCylinder){
           Swal.fire({
+            position: 'top',
             text: 'Do you want to edit an existing object, name: ' + addData.primename + ' ?',
             showDenyButton: true,
             background: "black",
@@ -167,6 +169,7 @@ const ViewPortComponent = props => {
         const prePolyhedron = scene.getMeshByID(addData.primename)
         if (prePolyhedron){
           Swal.fire({
+            position: 'top',
             text: 'Do you want to edit an existing object, name: ' + addData.primename + ' ?',
             showDenyButton: true,
             background: "black",

@@ -12,7 +12,7 @@ function handleClick(event) {
 export default function SimpleBreadcrumbs() {
   return (
     <Breadcrumbs aria-label="breadcrumb">
-      <Typography color="textPrimary">amrGL</Typography>
+      <Typography color="textPrimary">Prototype V1</Typography>
       <Link color="inherit" href="https://www.muyangguo.xyz" onClick={handleClick}>@Muyang Guo
       </Link>
     </Breadcrumbs>
