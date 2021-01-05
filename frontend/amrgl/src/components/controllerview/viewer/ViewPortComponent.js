@@ -1,8 +1,10 @@
 import React from 'react';
-import { ArcRotateCamera, Color3,Vector3, HemisphericLight, MeshBuilder} from '@babylonjs/core';
+import { ArcRotateCamera, Color3,Vector3, HemisphericLight, MeshBuilder, Mesh} from '@babylonjs/core';
 import {GridMaterial} from '@babylonjs/materials';
 import SceneComponent from './SceneComponent';
 import './ViewPortComponent.css';
+import Swal from 'sweetalert2';
+import { blackAndWhitePixelShader } from '@babylonjs/core/Shaders/blackAndWhite.fragment';
 
 const ViewPortComponent = props => {
   const { settingData, setSettings, addData, setAdd } = props;
@@ -41,18 +43,170 @@ const ViewPortComponent = props => {
       }
       if (addData.addnew){
         console.log('add new prime request')
+        if (addData.primetype == 'BOX'){
         const preBox = scene.getMeshByID(addData.primename)
         if (preBox){
-          alert('Reminder: are you going to make changes to existing prime, name : ' + addData.primename + ' ?')
-          preBox.dispose()
-          //removed, need to untrack
+          Swal.fire({
+            position: 'top',
+            text: 'Do you want to edit an existing object, name: ' + addData.primename + ' ?',
+            showDenyButton: true,
+            background: "black",
+            allowOutsideClick: false,
+            confirmButtonText: `Confirm`,
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire({
+                background: "black",
+                icon: 'success',
+                text: 'Edited',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+              preBox.dispose()
+              let box = MeshBuilder.CreateBox(addData.primename, {size: 1}, scene);
+              box.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
+              box.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
+              setAdd({...addData, addnew:false})
+              //removed, need to untrack
+            } else if (result.isDenied) {
+              Swal.fire('Changes are not saved, please edit again', '', 'info')
+            }
+          })
+          // alert('Reminder: are you going to make changes to existing prime, name : ' + addData.primename + ' ?')
+          
         }
+        else{
         let box = MeshBuilder.CreateBox(addData.primename, {size: 1}, scene);
         box.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
         box.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
-        setAdd({...addData, addnew:false})
+        setAdd({...addData, addnew:false})}
         //Added, need to track
       }
+      else if (addData.primetype == 'SPHERE'){
+        console.log('sphere')
+        const preSphere = scene.getMeshByID(addData.primename)
+        if (preSphere){
+          Swal.fire({
+            text: 'Do you want to edit an existing object, name: ' + addData.primename + ' ?',
+            showDenyButton: true,
+            background: "black",
+            allowOutsideClick: false,
+            confirmButtonText: `Confirm`,
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire({
+                background: "black",
+                icon: 'success',
+                text: 'Edited',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+              preSphere.dispose()
+              let sphere = MeshBuilder.CreateSphere(addData.primename, {size: 1}, scene);
+              sphere.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
+              sphere.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
+              setAdd({...addData, addnew:false})
+              //removed, need to untrack
+            } else if (result.isDenied) {
+              Swal.fire('Changes are not saved, please edit again', '', 'info')
+            }
+          })          
+        }
+        else{
+        let sphere = MeshBuilder.CreateSphere(addData.primename, {size: 1}, scene);
+        sphere.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
+        sphere.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
+        setAdd({...addData, addnew:false})}
+        //Added, need to track
+      }
+      else if (addData.primetype == 'CYLINDER'){
+        const preCylinder = scene.getMeshByID(addData.primename)
+        if (preCylinder){
+          Swal.fire({
+            text: 'Do you want to edit an existing object, name: ' + addData.primename + ' ?',
+            showDenyButton: true,
+            background: "black",
+            allowOutsideClick: false,
+            confirmButtonText: `Confirm`,
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire({
+                background: "black",
+                icon: 'success',
+                text: 'Edited',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+              preCylinder.dispose()
+              let cylinder = MeshBuilder.CreateCylinder(addData.primename, {size: 1}, scene);
+              cylinder.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
+              cylinder.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
+              setAdd({...addData, addnew:false})
+              //removed, need to untrack
+            } else if (result.isDenied) {
+              Swal.fire('Changes are not saved, please edit again', '', 'info')
+            }
+          })
+          // alert('Reminder: are you going to make changes to existing prime, name : ' + addData.primename + ' ?')
+          
+        }
+        else{
+        let cylinder = MeshBuilder.CreateCylinder(addData.primename, {size: 1}, scene);
+        cylinder.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
+        cylinder.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
+        setAdd({...addData, addnew:false})}
+        //Added, need to track
+      }
+      else if (addData.primetype == 'POLYHYDRON'){
+        const prePolyhedron = scene.getMeshByID(addData.primename)
+        if (prePolyhedron){
+          Swal.fire({
+            text: 'Do you want to edit an existing object, name: ' + addData.primename + ' ?',
+            showDenyButton: true,
+            background: "black",
+            allowOutsideClick: false,
+            confirmButtonText: `Confirm`,
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire({
+                background: "black",
+                icon: 'success',
+                text: 'Edited',
+                showConfirmButton: false,
+                timer: 1500,
+              })
+              prePolyhedron.dispose()
+              let polyhedron = Mesh.CreatePolyhedron(addData.primename, {type: addData.polyhydrontype, size: 1}, scene);
+              polyhedron.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
+              polyhedron.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
+              setAdd({...addData, addnew:false})
+              //removed, need to untrack
+            } else if (result.isDenied) {
+              Swal.fire('Changes are not saved, please edit again', '', 'info')
+            }
+          })
+          // alert('Reminder: are you going to make changes to existing prime, name : ' + addData.primename + ' ?')
+          
+        }
+        else{
+        let polyhedron = Mesh.CreatePolyhedron(addData.primename, {type: addData.polyhydrontype, size: 1}, scene);
+        polyhedron.position = new Vector3(Number(addData.positionx),Number(addData.positiony),Number(addData.positionz));
+        polyhedron.scaling = new Vector3(Number(addData.scalex),Number(addData.scaley),Number(addData.scalez));
+        setAdd({...addData, addnew:false})}
+        //Added, need to track
+      }
+
+     }
+
+
 
       }
 

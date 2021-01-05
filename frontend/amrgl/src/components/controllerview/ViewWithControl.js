@@ -53,7 +53,6 @@ export default function FloatingActionButtons() {
   const changeAdd = data => {
     if (data.primetype != addData.primetype || data.primename != addData.primename || data.positionx != addData.positionx || data.positiony != addData.positiony || data.positionz != addData.positionz || data.scalex != addData.scalex || data.scalez != addData.scalez || data.scaley != addData.scaley){
     // if (data.gridChange){
-      console.log(data)
       setAdd({ ...data, addnew:true})
   } 
 
@@ -61,12 +60,12 @@ export default function FloatingActionButtons() {
 
 
   const changeSettings = data => {
-    if (data.planesize != settingData.planesize || data.gridsize != settingData.gridsize){
+    if ((data.planesize != settingData.planesize || data.gridsize != settingData.gridsize)){
     // if (data.gridChange){
       console.log('a grid change happened')
       setSettings({ ...data, gridChange: true, colorChange: false})
   }    
-    else if (data.lightR != settingData.lightR || data.lightB != settingData.lightB || data.lightG != settingData.lightG){
+    else if ((data.lightR != settingData.lightR || data.lightB != settingData.lightB || data.lightG != settingData.lightG)){
     // else if (data.colorChange){
     console.log('a scene color change happened')
       setSettings({...data, colorChange: true, gridChange: false})

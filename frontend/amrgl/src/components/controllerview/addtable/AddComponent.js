@@ -1,19 +1,18 @@
 import React from 'react';
 import clsx from 'clsx';
-import { makeStyles, withStyles} from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import Fab from '@material-ui/core/Fab';
 import Confirm from '@material-ui/icons/Check';
 import Grid from '@material-ui/core/Grid';
-import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
-import ColorLensIcon from '@material-ui/icons/ColorLens';
 import InputLabel from '@material-ui/core/InputLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import NativeSelect from '@material-ui/core/NativeSelect';
+import Swal from 'sweetalert2';
+
+
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(1),
     },
     textField: {
-      width: '12ch',
+      width: '16ch',
       background: "white",
       borderRadius: 8,
       opacity: 0.8,
@@ -33,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
     const [primeData, setPrime] = React.useState({
         primetype: '',
         primename: '',
+        polyhydrontype: null,
         addnew: false,
         positionx: null,
         positiony: null,
@@ -44,8 +44,52 @@ const useStyles = makeStyles((theme) => ({
     
       const handlePrimeChange = (event) => {
         const name = event.target.name;
-        console.log(name)
-        setPrime({ ...primeData, [name]: event.target.value, addnew:false});
+        const eventvalue = event.target.value
+        if (event.target.value == 'POLYHYDRON'){
+          // console.log('found')
+
+          
+          (async () => {
+            console.log('selected Polyhydron, now choose type')
+            const { value: Polyhydrons } = await Swal.fire({
+              position: 'top',
+              background: 'black',
+              input: 'select',
+              inputOptions: {
+                'Polyhydrons': {
+                  0: 'Tetrahedron',
+                  1: 'Octahedron',
+                  2: 'Dodecahedron',
+                  3: 'Icosahedron',
+                  4: 'Rhombicuboctahedron',
+                  5: 'Triangular Prism',
+                  6: 'Pentagonal Prism',
+                  7: 'HexagonalPrism',
+                  8: 'Square Pyramid (J1)',
+                  9: 'Pentagonal Pyramid (J2)', 
+                  10: 'Triangular Dipyramid (J12)', 
+                  11: 'Pentagonal Dipyramid (J13)',
+                  12: 'Elongated Square Dipyramid (J15)',
+                  13: 'Elongated Pentagonal Dipyramid (J16)', 
+                  14: 'Elongated Pentagonal Cupola (J20)', 
+                },
+              },
+              inputPlaceholder: 'Select a Polyhydron',
+              showCancelButton: true,
+              inputValidator: (value) => {
+                return new Promise((resolve) => {
+                  resolve()
+                })
+              }
+            })
+            if (Polyhydrons) {
+              Swal.fire(`selected`)
+              setPrime({ ...primeData, primetype: eventvalue, polyhydrontype: Polyhydrons, addnew:false});
+            }
+            })()
+        } else {
+        setPrime({ ...primeData, [name]: event.target.value, polyhydrontype: null, addnew:false});}
+  
         //handle child state change
       };
   
@@ -79,6 +123,9 @@ const useStyles = makeStyles((theme) => ({
             >
               <option aria-label="None" value="" />
               <option value={'BOX'}>BOX</option>
+              <option value={'SPHERE'}>SPHERE</option>
+              <option value={'CYLINDER'}>CYLINDER</option>
+              <option value={'POLYHYDRON'}>POLYHYDRON</option>
             </Select>
           </FormControl>
           </Grid>
