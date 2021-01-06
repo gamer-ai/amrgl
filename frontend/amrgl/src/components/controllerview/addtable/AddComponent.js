@@ -83,7 +83,13 @@ const useStyles = makeStyles((theme) => ({
               }
             })
             if (Polyhydrons) {
-              Swal.fire(`selected`)
+              Swal.fire({
+                background: "black",
+                icon: 'success',
+                text: 'Selected',
+                showConfirmButton: false,
+                timer: 1500,
+              })
               setPrime({ ...primeData, primetype: eventvalue, polyhydrontype: Polyhydrons, addnew:false});
             }
             })()
