@@ -154,11 +154,11 @@ const ViewPortComponent = (props) => {
                 setAdd({ ...addData, addnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
-                Swal.fire(
-                  "Changes are not saved, please edit again",
-                  "",
-                  "info"
-                );
+                Swal.fire({
+                  background: "black",
+                  icon: "info",
+                  text: "Changes are not saved, please edit again",
+                });
               }
             });
             // alert('Reminder: are you going to make changes to existing prime, name : ' + addData.primename + ' ?')
@@ -226,11 +226,11 @@ const ViewPortComponent = (props) => {
                 setAdd({ ...addData, addnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
-                Swal.fire(
-                  "Changes are not saved, please edit again",
-                  "",
-                  "info"
-                );
+                Swal.fire({
+                  background: "black",
+                  icon: "info",
+                  text: "Changes are not saved, please edit again",
+                });
               }
             });
           } else {
@@ -296,11 +296,11 @@ const ViewPortComponent = (props) => {
                 setAdd({ ...addData, addnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
-                Swal.fire(
-                  "Changes are not saved, please edit again",
-                  "",
-                  "info"
-                );
+                Swal.fire({
+                  background: "black",
+                  icon: "info",
+                  text: "Changes are not saved, please edit again",
+                });
               }
             });
             // alert('Reminder: are you going to make changes to existing prime, name : ' + addData.primename + ' ?')
@@ -366,11 +366,11 @@ const ViewPortComponent = (props) => {
                 setAdd({ ...addData, addnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
-                Swal.fire(
-                  "Changes are not saved, please edit again",
-                  "",
-                  "info"
-                );
+                Swal.fire({
+                  background: "black",
+                  icon: "info",
+                  text: "Changes are not saved, please edit again",
+                });
               }
             });
             // alert('Reminder: are you going to make changes to existing prime, name : ' + addData.primename + ' ?')
