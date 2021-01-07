@@ -103,7 +103,7 @@ const ViewPortComponent = (props) => {
             highlight.removeAllMeshes();
             translategizmo.attachedMesh = pickResult.pickedMesh;
             rotategizmo.attachedMesh = pickResult.pickedMesh;
-            highlight.addMesh(pickResult.pickedMesh, Color3.Green());
+            highlight.addMesh(pickResult.pickedMesh, Color3.Magenta());
           } else {
             translategizmo.attachedMesh = null;
             rotategizmo.attachedMesh = null;
