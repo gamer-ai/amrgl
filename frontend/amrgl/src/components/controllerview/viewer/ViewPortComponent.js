@@ -6,12 +6,19 @@ import {
   HemisphericLight,
   MeshBuilder,
   Mesh,
+  UtilityLayerRenderer,
+  PositionGizmo,
+  RotationGizmo,
+  HighlightLayer,
 } from "@babylonjs/core";
 import { GridMaterial } from "@babylonjs/materials";
 import SceneComponent from "./SceneComponent";
 import "./ViewPortComponent.css";
 import Swal from "sweetalert2";
-import { blackAndWhitePixelShader } from "@babylonjs/core/Shaders/blackAndWhite.fragment";
+let translategizmo = null;
+let rotategizmo = null;
+let utilLayer = null;
+let highlight = null;
 
 const ViewPortComponent = (props) => {
   const { settingData, setSettings, addData, setAdd } = props;
@@ -19,8 +26,10 @@ const ViewPortComponent = (props) => {
 
   React.useEffect(() => {
     const scene = sceneRef.current;
+
     if (scene) {
       // modify the plane, by dispose and rebuild adding to scene.
+
       if (settingData.gridChange) {
         console.log("grid change request");
         const prePlane = scene.getMeshByID("plane");
@@ -45,6 +54,7 @@ const ViewPortComponent = (props) => {
           groundMaterial.lineColor = new Color3(1.0, 1.0, 1.0);
           groundMaterial.opacity = 0.98;
           ground.material = groundMaterial;
+          ground.isPickable = false;
         }
 
         setSettings({ ...settingData, gridChange: false });
@@ -59,6 +69,47 @@ const ViewPortComponent = (props) => {
         setSettings({ ...settingData, colorChange: false });
       }
       if (addData.addnew) {
+        if (!translategizmo) {
+          utilLayer = new UtilityLayerRenderer(scene);
+          // Create the gizmo and attach to the sphere
+          translategizmo = new PositionGizmo(utilLayer);
+          rotategizmo = new RotationGizmo(utilLayer);
+
+          highlight = new HighlightLayer(scene);
+        } else {
+          translategizmo.attachedMesh = null;
+          translategizmo.dispose();
+          rotategizmo.dispose();
+          utilLayer.dispose();
+          highlight.dispose();
+          utilLayer = new UtilityLayerRenderer(scene);
+          // Create the gizmo and attach to the sphere
+          translategizmo = new PositionGizmo(utilLayer);
+          rotategizmo = new RotationGizmo(utilLayer);
+          highlight = new HighlightLayer(scene);
+        }
+
+        translategizmo.attachedMesh = null;
+        // Keep the gizmo fixed to world rotation
+        translategizmo.updateGizmoRotationToMatchAttachedMesh = false;
+        translategizmo.updateGizmoPositionToMatchAttachedMesh = true;
+        rotategizmo.updateGizmoRotationToMatchAttachedMesh = false;
+        rotategizmo.updateGizmoPositionToMatchAttachedMesh = true;
+
+        scene.onPointerDown = function (evt, pickResult) {
+          // We try to pick an object
+
+          if (pickResult.hit) {
+            highlight.removeAllMeshes();
+            translategizmo.attachedMesh = pickResult.pickedMesh;
+            rotategizmo.attachedMesh = pickResult.pickedMesh;
+            highlight.addMesh(pickResult.pickedMesh, Color3.Green());
+          } else {
+            translategizmo.attachedMesh = null;
+            rotategizmo.attachedMesh = null;
+            highlight.removeAllMeshes();
+          }
+        };
         console.log("add new prime request");
         if (addData.primetype == "BOX") {
           const preBox = scene.getMeshByID(addData.primename);
@@ -117,6 +168,7 @@ const ViewPortComponent = (props) => {
               { size: 1 },
               scene
             );
+            box.isPickable = true;
             box.position = new Vector3(
               Number(addData.positionx),
               Number(addData.positiony),
@@ -225,6 +277,7 @@ const ViewPortComponent = (props) => {
                   timer: 1500,
                 });
                 preCylinder.dispose();
+
                 let cylinder = MeshBuilder.CreateCylinder(
                   addData.primename,
                   { size: 1 },
@@ -381,6 +434,7 @@ const ViewPortComponent = (props) => {
     groundMaterial.lineColor = new Color3(1.0, 1.0, 1.0);
     groundMaterial.opacity = 0.98;
     ground.material = groundMaterial;
+    ground.isPickable = false;
   };
   /**
    * Will run on every frame render.  We are spinning the box on y-axis.

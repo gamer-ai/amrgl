@@ -8,7 +8,7 @@ const SceneComponent = (props) => {
     const height = window.innerHeight;
     useEffect(() => {
         if (reactCanvas.current) {
-            const engine = new Engine(reactCanvas.current, antialias, engineOptions, adaptToDeviceRatio);
+            const engine = new Engine(reactCanvas.current, antialias, engineOptions, adaptToDeviceRatio, { stencil: true });
             const scene = new Scene(engine, sceneOptions);
             scene.clearColor = new Color3(0.45, 0.45, 0.45);
             engine.setSize(width, height);
