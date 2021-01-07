@@ -11,6 +11,8 @@ import ViewPort from './viewer/ViewPortComponent';
 import './ViewWithControl.css'
 import Scaleline from './viewer/ScalelineComponent';
 import Add from './addtable/AddComponent';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faFileUpload } from '@fortawesome/free-solid-svg-icons'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -79,16 +81,20 @@ export default function FloatingActionButtons() {
     showAdd: false,
     showSettings: false,
     showEdit: false,
+    showImport: false,
   });
  
 
   const handleSettingClick = () => {
-    setValues({ showEdit: false, showAdd: false, showSettings: !values.showSettings });
+    setValues({ showImport: false, showEdit: false, showAdd: false, showSettings: !values.showSettings });
   };
   const handleAddClick = () => {
-    setValues({ showEdit: false, showAdd: !values.showAdd, showSettings: false });
+    setValues({ showImport: false, showEdit: false, showAdd: !values.showAdd, showSettings: false });
   };
 
+  const handleImportClick = () => {
+    setValues({ showEdit: false, showAdd: false, showSettings: false, showImport: !values.showImport });
+  };
   return (
     
     <div>
@@ -99,6 +105,9 @@ export default function FloatingActionButtons() {
       </Fab>
       <Fab size="small"  aria-label="add" color = {values.showAdd ? "primary" : "default" } onClick={handleAddClick}>
         <AddIcon />
+      </Fab>
+      <Fab size="small" aria-label="import" color = {values.showImport ? "primary" : "default" } onClick={handleImportClick}>
+        <FontAwesomeIcon icon={faFileUpload} size="lg"/>
       </Fab>
       <Fab size="small"  aria-label="edit">
         <EditIcon />
