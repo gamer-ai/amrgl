@@ -1,0 +1,11 @@
+import React from 'react';
+import clsx from 'clsx';
+import { makeStyles, withStyles} from '@material-ui/core/styles';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
+import Confirm from '@material-ui/icons/Check';
+import Grid from '@material-ui/core/Grid';
+import Slider from '@material-ui/core/Slider';
+import Button from '@material-ui/core/Button';
+import ColorLensIcon from '@material-ui/icons/ColorLens';
