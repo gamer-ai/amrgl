@@ -7,6 +7,7 @@ import SetIcon from '@material-ui/icons/TuneTwoTone';
 import DownloadIcon from '@material-ui/icons/GetAppRounded';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Setting from './settingtable/SettingComponent';
+import Upload from './uploadtable/UploadComponent';
 import ViewPort from './viewer/ViewPortComponent';
 import './ViewWithControl.css'
 import Scaleline from './viewer/ScalelineComponent';
@@ -120,6 +121,7 @@ export default function FloatingActionButtons() {
       </Fab>
       {values.showSettings && <div className ="SettingTable"><Setting onChange={changeSettings}></Setting></div>}
       {values.showAdd && <div className ="AddTable"><Add onChange={changeAdd} ></Add></div>}
+      {values.showImport && <div className ="UploadTable"><Upload></Upload></div>}
       </div>
     </div>
       <div className = "BottomView">
