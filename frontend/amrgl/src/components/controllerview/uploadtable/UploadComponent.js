@@ -7,10 +7,7 @@ import Fab from '@material-ui/core/Fab';
 import Confirm from '@material-ui/icons/Check';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import InputLabel from '@material-ui/core/InputLabel';
-import FormControl from '@material-ui/core/FormControl';
 import Swal from 'sweetalert2';
-import Input from '@material-ui/core/Input';
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -32,12 +29,19 @@ const useStyles = makeStyles((theme) => ({
 const FileUpload = props =>{
   const classes = useStyles();
   // State to store uploaded file
-  const [file, setFile] = React.useState("");
-
+  const [fileControl, setFile] = React.useState({
+      file: "",
+      confirmUpload: false,
+  });
+  const handleClickUploadConfirm = ()=> {
+    setFile({...fileControl, confirmUpload: true});
+    if (props.onChange) {
+        props.onChange(fileControl);
+      }
+  };
   // Handles file upload event and updates state
   function handleUpload(event) {
-    setFile(event.target.files[0]);
-
+    setFile({file:event.target.files[0], confirmUpload: false});
     // Add code here to upload file to server
     // ...
   }
@@ -53,18 +57,25 @@ const FileUpload = props =>{
                 variant="outlined"
                 color="secondary"
                 type="file"
-                defaultValue = {file.name}
+                defaultValue = {fileControl.file.name}
                 onChange={handleUpload}
                 className={clsx(classes.margin, classes.textField)}
                 />
         </Grid>
       <Grid item>
         <div id="upload-states-info">
-        <p>Filename: {file.name}</p>
-        <p>File size: {file.size} bytes</p>
+        <p>Filename: {fileControl.file.name}</p>
+        <p>File size: {fileControl.file.size} bytes</p>
         </div>
-        </Grid>
+      </Grid>
+      <Grid item>
+        <div className={classes.slidermargin} />
+          <Fab size="small" color = "secondary" aria-label="confirm color" onClick = {handleClickUploadConfirm} color = {fileControl.confirmUpload ? "primary" : "default" }>
+              <Confirm />
+          </Fab>
+     </Grid>
     </Grid>
+
     </div>
     </div>
 
