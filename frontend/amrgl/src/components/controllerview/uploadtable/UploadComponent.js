@@ -65,7 +65,7 @@ const FileUpload = props =>{
       <Grid item>
         <div id="upload-states-info">
         <p>Filename: {fileControl.file.name}</p>
-        <p>File size: {fileControl.file.size} bytes</p>
+        <p>File Size: {fileControl.file.size} bytes</p>
         </div>
       </Grid>
       <Grid item>
