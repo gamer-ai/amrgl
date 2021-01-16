@@ -1,4 +1,5 @@
 import React from "react";
+import 'babylonjs-loaders';
 import {
   ArcRotateCamera,
   Color3,
@@ -21,7 +22,7 @@ let utilLayer = null;
 let highlight = null;
 
 const ViewPortComponent = (props) => {
-  const { settingData, setSettings, addData, setAdd } = props;
+  const { settingData, setSettings, addData, setAdd, fileControl, setFileControl } = props;
   const sceneRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -63,6 +64,9 @@ const ViewPortComponent = (props) => {
         }
 
         setSettings({ ...settingData, gridChange: false });
+      }
+      if (fileControl.fileadd){
+        console.log(fileControl.file)
       }
 
       if (addData.addnew) {
@@ -393,7 +397,7 @@ const ViewPortComponent = (props) => {
         }
       }
     }
-  }, [settingData, addData]);
+  }, [settingData, addData, fileControl]);
 
   const onSceneReady = (scene) => {
     sceneRef.current = scene;

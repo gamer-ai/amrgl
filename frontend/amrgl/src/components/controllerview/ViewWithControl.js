@@ -52,18 +52,20 @@ export default function FloatingActionButtons() {
     scalez: null,
   });
 
+  const [fileControl, setFileControl] = React.useState( {
+    file: "",
+    fileadd: false,
+  } );
+
   const changeAdd = data => {
     if (data.primetype != addData.primetype || data.primename != addData.primename || data.positionx != addData.positionx || data.positiony != addData.positiony || data.positionz != addData.positionz || data.scalex != addData.scalex || data.scalez != addData.scalez || data.scaley != addData.scaley){
-    // if (data.gridChange){
       setAdd({ ...data, addnew:true})
-  } 
-
+    } 
   };
 
 
   const changeSettings = data => {
     if ((data.planesize != settingData.planesize || data.gridsize != settingData.gridsize || data.lightR != settingData.lightR || data.lightB != settingData.lightB || data.lightG != settingData.lightG)){
-    // if (data.gridChange){
       console.log('a grid change happened')
       setSettings({ ...data, gridChange: true})
   }    
@@ -72,6 +74,17 @@ export default function FloatingActionButtons() {
     }
 
   };
+
+  const changeUpload = data => {
+    if (data.file.name != fileControl.file.name) {
+      console.log('a file add happened')
+      setFileControl({ ...data, fileadd:true})
+    } 
+    else{
+      console.log('no need to change')
+    }
+  };
+
   const [values, setValues] = React.useState({
     showAdd: false,
     showSettings: false,
@@ -115,11 +128,11 @@ export default function FloatingActionButtons() {
       </Fab>
       {values.showSettings && <div className ="SettingTable"><Setting onChange={changeSettings}></Setting></div>}
       {values.showAdd && <div className ="AddTable"><Add onChange={changeAdd} ></Add></div>}
-      {values.showImport && <div className ="UploadTable"><Upload></Upload></div>}
+      {values.showImport && <div className ="UploadTable"><Upload onChange={changeUpload}></Upload></div>}
       </div>
     </div>
       <div className = "BottomView">
-      <ViewPort settingData = {settingData} setSettings = {setSettings} addData = {addData} setAdd = {setAdd}/>
+      <ViewPort settingData = {settingData} setSettings = {setSettings} addData = {addData} setAdd = {setAdd} fileControl = {fileControl} setFileControl = {setFileControl}/>
       </div>
       <div className ="Scaleline"><Scaleline>{settingData}</Scaleline></div>
     </div>
