@@ -38,7 +38,6 @@ export default function FloatingActionButtons() {
     lightR: 0.45,
     lightG: 0.45,
     lightB: 0.45,
-    colorChange: false,
   } );
   
   const [addData, setAdd] = React.useState({
@@ -63,18 +62,13 @@ export default function FloatingActionButtons() {
 
 
   const changeSettings = data => {
-    if ((data.planesize != settingData.planesize || data.gridsize != settingData.gridsize)){
+    if ((data.planesize != settingData.planesize || data.gridsize != settingData.gridsize || data.lightR != settingData.lightR || data.lightB != settingData.lightB || data.lightG != settingData.lightG)){
     // if (data.gridChange){
       console.log('a grid change happened')
-      setSettings({ ...data, gridChange: true, colorChange: false})
+      setSettings({ ...data, gridChange: true})
   }    
-    else if ((data.lightR != settingData.lightR || data.lightB != settingData.lightB || data.lightG != settingData.lightG)){
-    // else if (data.colorChange){
-    console.log('a scene color change happened')
-      setSettings({...data, colorChange: true, gridChange: false})
-    }
     else{
-      console.log('no change needed')
+    console.log('no change needed')
     }
 
   };

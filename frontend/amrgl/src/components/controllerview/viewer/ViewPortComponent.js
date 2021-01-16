@@ -32,6 +32,11 @@ const ViewPortComponent = (props) => {
 
       if (settingData.gridChange) {
         console.log("grid change request");
+        scene.clearColor = new Color3(
+          settingData.lightR,
+          settingData.lightG,
+          settingData.lightB
+        );
         const prePlane = scene.getMeshByID("plane");
         const prePlaneMaterial = scene.getMaterialByID("groundMaterial");
         if (
@@ -59,15 +64,7 @@ const ViewPortComponent = (props) => {
 
         setSettings({ ...settingData, gridChange: false });
       }
-      if (settingData.colorChange) {
-        console.log("color change request");
-        scene.clearColor = new Color3(
-          settingData.lightR,
-          settingData.lightG,
-          settingData.lightB
-        );
-        setSettings({ ...settingData, colorChange: false });
-      }
+
       if (addData.addnew) {
         if (!translategizmo) {
           utilLayer = new UtilityLayerRenderer(scene);

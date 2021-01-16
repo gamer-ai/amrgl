@@ -134,7 +134,7 @@ const GridSettings = props =>{
     lightR: 0.45,
     lightG: 0.45,
     lightB: 0.45,
-    colorChange: false,
+    // colorChange: false,
   });
 
   const handleGridChange = (prop) => (event) => {
@@ -142,7 +142,7 @@ const GridSettings = props =>{
     //handle child state change
   };
   const handleColorChange = (prop) => (event, slidervalue) => {
-    setValues({ ...values, [prop]: slidervalue, colorChange: false});
+    setValues({ ...values, [prop]: slidervalue, gridChange: false});
     //handle child state change
   };
 
@@ -153,12 +153,12 @@ const GridSettings = props =>{
       }
   };
 
-  const handleClickColorConfirm = ()=> {
-    setValues({ ...values, colorChange: true });
-    if (props.onChange) {
-        props.onChange(values);
-      }
-  };
+  // const handleClickColorConfirm = ()=> {
+  //   setValues({ ...values, colorChange: true });
+  //   if (props.onChange) {
+  //       props.onChange(values);
+  //     }
+  // };
 
 //   const handleMouseDownPassword = (event) => {
 //     event.preventDefault();
@@ -221,12 +221,12 @@ const GridSettings = props =>{
           <GreenSlider valueLabelDisplay="auto" aria-label="pretto slider 4" defaultValue={0.45} min = {0} max = {1} step = {0.01} onChange={handleColorChange('lightB')}/>
         </div>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
         <div className={classes.slidermargin} />
           <Fab size="small" color = "secondary" aria-label="confirm color" onClick = {handleClickColorConfirm} color = {values.colorChange ? "primary" : "default" }>
               <Confirm />
           </Fab>
-        </Grid>
+        </Grid> */}
       </Grid>
       <div>
 
