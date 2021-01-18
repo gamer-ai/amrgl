@@ -11,6 +11,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import Swal from "sweetalert2";
+import { library } from "@fortawesome/fontawesome-svg-core";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -37,12 +38,12 @@ const BuiltInComponent = (props) => {
     builtintype: "",
     builtinname: "",
     builtinnew: false,
-    positionx: null,
-    positiony: null,
-    positionz: null,
-    scalex: null,
-    scaley: null,
-    scalez: null,
+    positionx: 0,
+    positiony: 0,
+    positionz: 0,
+    scalex: 1,
+    scaley: 1,
+    scalez: 1,
   });
 
   const handleBuiltinChange = (event) => {
@@ -89,10 +90,13 @@ const BuiltInComponent = (props) => {
               }}
             >
               <option aria-label="None" value="" />
-              <option value={"Storage_Shelf_100x40x150"}>Storage Shelf 100x40x150</option>
+              <optgroup label="Base">
               <option value={"Wall"}>Wall</option>
               <option value={"Floor"}>Floor</option>
-        
+              </optgroup>
+              <optgroup label="Shelf System">
+              <option value={"Storage_Shelf_100x40x150"}>Storage Shelf 100x40x150</option>
+              </optgroup>
             </Select>
           </FormControl>
         </Grid>
@@ -127,7 +131,7 @@ const BuiltInComponent = (props) => {
                   color="secondary"
                   label="center position"
                   type="number"
-                  // defaultValue = {values.planesize}
+                  defaultValue = {builtinData.positionx}
                   onChange={handlePositionChange("positionx")}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
@@ -146,7 +150,7 @@ const BuiltInComponent = (props) => {
                   label="center position"
                   type="number"
                   onChange={handlePositionChange("positiony")}
-                  //   defaultValue = {values.gridsize}
+                 defaultValue = {builtinData.positiony}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
                     startAdornment: (
@@ -164,7 +168,7 @@ const BuiltInComponent = (props) => {
                   label="center position"
                   type="number"
                   onChange={handlePositionChange("positionz")}
-                  //   defaultValue = {values.gridsize}
+                 defaultValue = {builtinData.positionz}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
                     startAdornment: (
@@ -186,7 +190,7 @@ const BuiltInComponent = (props) => {
                   color="secondary"
                   label="scale-x"
                   type="number"
-                  // defaultValue = {values.planesize}
+                  defaultValue = {builtinData.scalex}
                   onChange={handlePositionChange("scalex")}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
@@ -205,7 +209,7 @@ const BuiltInComponent = (props) => {
                   label="scale-y"
                   type="number"
                   onChange={handlePositionChange("scaley")}
-                  //   defaultValue = {values.gridsize}
+                  defaultValue = {builtinData.scaley}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
                     startAdornment: (
@@ -223,7 +227,7 @@ const BuiltInComponent = (props) => {
                   label="scale-z"
                   type="number"
                   onChange={handlePositionChange("scalez")}
-                  //   defaultValue = {values.gridsize}
+                 defaultValue = {builtinData.scalez}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
                     startAdornment: (

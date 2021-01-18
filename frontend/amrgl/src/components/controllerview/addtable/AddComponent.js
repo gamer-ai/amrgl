@@ -38,12 +38,12 @@ const AddComponent = (props) => {
     primename: "",
     polyhydrontype: null,
     addnew: false,
-    positionx: null,
-    positiony: null,
-    positionz: null,
-    scalex: null,
-    scaley: null,
-    scalez: null,
+    positionx: 0,
+    positiony: 0,
+    positionz: 0,
+    scalex: 100,
+    scaley: 100,
+    scalez: 100,
   });
 
   const handlePrimeChange = (event) => {
@@ -134,7 +134,9 @@ const AddComponent = (props) => {
             variant="filled"
             className={classes.textFieldtop}
           >
-            <InputLabel htmlFor="filled-age-native-simple">+ Primes (All Fields Required)</InputLabel>
+            <InputLabel htmlFor="filled-age-native-simple">
+              + Primes (All Fields Required)
+            </InputLabel>
             <Select
               native
               value={primeData.primetype}
@@ -183,7 +185,7 @@ const AddComponent = (props) => {
                   color="secondary"
                   label="center position"
                   type="number"
-                  // defaultValue = {values.planesize}
+                  defaultValue={primeData.positionx}
                   onChange={handlePositionChange("positionx")}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
@@ -202,7 +204,7 @@ const AddComponent = (props) => {
                   label="center position"
                   type="number"
                   onChange={handlePositionChange("positiony")}
-                  //   defaultValue = {values.gridsize}
+                  defaultValue={primeData.positiony}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
                     startAdornment: (
@@ -220,7 +222,7 @@ const AddComponent = (props) => {
                   label="center position"
                   type="number"
                   onChange={handlePositionChange("positionz")}
-                  //   defaultValue = {values.gridsize}
+                  defaultValue={primeData.positionz}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
                     startAdornment: (
@@ -242,7 +244,7 @@ const AddComponent = (props) => {
                   color="secondary"
                   label="scale-x"
                   type="number"
-                  // defaultValue = {values.planesize}
+                  defaultValue={primeData.scalex}
                   onChange={handlePositionChange("scalex")}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
@@ -261,7 +263,7 @@ const AddComponent = (props) => {
                   label="scale-y"
                   type="number"
                   onChange={handlePositionChange("scaley")}
-                  //   defaultValue = {values.gridsize}
+                  defaultValue={primeData.scaley}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
                     startAdornment: (
@@ -279,7 +281,7 @@ const AddComponent = (props) => {
                   label="scale-z"
                   type="number"
                   onChange={handlePositionChange("scalez")}
-                  //   defaultValue = {values.gridsize}
+                  defaultValue={primeData.scalez}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={{
                     startAdornment: (

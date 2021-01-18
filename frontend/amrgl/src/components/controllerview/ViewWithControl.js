@@ -46,24 +46,24 @@ export default function FloatingActionButtons() {
     primetype: '',
     primename: '',
     addnew: false,
-    positionx: null,
-    positiony: null,
-    positionz: null,
-    scalex: null,
-    scaley: null,
-    scalez: null,
+    positionx: 0,
+    positiony: 0,
+    positionz: 0,
+    scalex: 100,
+    scaley: 100,
+    scalez: 100,
   });
 
   const [libraryData, setBuiltin] = React.useState({
     buultintype: '',
     builtinname: '',
     builtinnew: false,
-    positionx: null,
-    positiony: null,
-    positionz: null,
-    scalex: null,
-    scaley: null,
-    scalez: null,
+    positionx: 0,
+    positiony: 0,
+    positionz: 0,
+    scalex: 1,
+    scaley: 1,
+    scalez: 1,
   });
 
   const [fileControl, setFileControl] = React.useState( {
