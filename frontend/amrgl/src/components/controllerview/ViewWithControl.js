@@ -5,6 +5,7 @@ import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import SetIcon from '@material-ui/icons/TuneTwoTone';
 import DownloadIcon from '@material-ui/icons/GetAppRounded';
+import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Setting from './settingtable/SettingComponent';
 import Upload from './uploadtable/UploadComponent';
@@ -90,19 +91,23 @@ export default function FloatingActionButtons() {
     showSettings: false,
     showEdit: false,
     showImport: false,
+    showLibrary: false,
   });
  
 
   const handleSettingClick = () => {
-    setValues({ showImport: false, showEdit: false, showAdd: false, showSettings: !values.showSettings });
+    setValues({ showImport: false, showEdit: false, showAdd: false, showLibrary: false,showSettings: !values.showSettings });
   };
   const handleAddClick = () => {
-    setValues({ showImport: false, showEdit: false, showAdd: !values.showAdd, showSettings: false });
+    setValues({ showImport: false, showEdit: false, showLibrary: false,showAdd: !values.showAdd, showSettings: false });
+  };
+  const handleLibraryClick = () => {
+    setValues({ showEdit: false, showAdd: false, showLibrary: !values.showLibrary, showSettings: false, showImport: false});
+  };
+  const handleImportClick = () => {
+    setValues({ showEdit: false, showAdd: false, showLibrary: false, showSettings: false, showImport: !values.showImport });
   };
 
-  const handleImportClick = () => {
-    setValues({ showEdit: false, showAdd: false, showSettings: false, showImport: !values.showImport });
-  };
   return (
     
     <div>
@@ -113,6 +118,9 @@ export default function FloatingActionButtons() {
       </Fab>
       <Fab size="small"  aria-label="add" color = {values.showAdd ? "primary" : "default" } onClick={handleAddClick}>
         <AddIcon />
+      </Fab>
+      <Fab size="small"  aria-label="add" color = {values.showLibrary ? "primary" : "default" } onClick={handleLibraryClick}>
+        <LibraryAddIcon />
       </Fab>
       <Fab size="small" aria-label="import" color = {values.showImport ? "primary" : "default" } onClick={handleImportClick}>
         <FontAwesomeIcon icon={faFileUpload} size="lg"/>
