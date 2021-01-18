@@ -1,5 +1,7 @@
 import React from "react";
-import 'babylonjs-loaders';
+// import * as BABYLON from 'babylonjs';
+// import 'babylonjs-loaders';
+import "@babylonjs/loaders/OBJ";
 import {
   ArcRotateCamera,
   Color3,
@@ -31,7 +33,47 @@ const ViewPortComponent = (props) => {
 
     if (scene) {
       // modify the plane, by dispose and rebuild adding to scene.
+      if (!translategizmo) {
+        utilLayer = new UtilityLayerRenderer(scene);
+        // Create the gizmo and attach to the sphere
+        translategizmo = new PositionGizmo(utilLayer);
+        rotategizmo = new RotationGizmo(utilLayer);
 
+        highlight = new HighlightLayer(scene);
+      } else {
+        translategizmo.attachedMesh = null;
+        translategizmo.dispose();
+        rotategizmo.dispose();
+        utilLayer.dispose();
+        highlight.dispose();
+        utilLayer = new UtilityLayerRenderer(scene);
+        // Create the gizmo and attach to the sphere
+        translategizmo = new PositionGizmo(utilLayer);
+        rotategizmo = new RotationGizmo(utilLayer);
+        highlight = new HighlightLayer(scene);
+      }
+
+      translategizmo.attachedMesh = null;
+      // Keep the gizmo fixed to world rotation
+      translategizmo.updateGizmoRotationToMatchAttachedMesh = false;
+      translategizmo.updateGizmoPositionToMatchAttachedMesh = true;
+      rotategizmo.updateGizmoRotationToMatchAttachedMesh = false;
+      rotategizmo.updateGizmoPositionToMatchAttachedMesh = true;
+
+      scene.onPointerDown = function (evt, pickResult) {
+        // We try to pick an object
+
+        if (pickResult.hit) {
+          highlight.removeAllMeshes();
+          translategizmo.attachedMesh = pickResult.pickedMesh;
+          rotategizmo.attachedMesh = pickResult.pickedMesh;
+          highlight.addMesh(pickResult.pickedMesh, Color3.Magenta());
+        } else {
+          translategizmo.attachedMesh = null;
+          rotategizmo.attachedMesh = null;
+          highlight.removeAllMeshes();
+        }
+      };
       if (settingData.gridChange) {
         console.log("grid change request");
         scene.clearColor = new Color3(
@@ -68,59 +110,22 @@ const ViewPortComponent = (props) => {
       }
       if (fileControl.fileadd){
         console.log(fileControl.file)
-      //   SceneLoader.Append("scenes/BoomBox/", "BoomBox.gltf", scene, function (scene) {
-      //     // Create a default arc rotate camera and light.
-      //     scene.createDefaultCameraOrLight(true, true, true);
+        //test
+        SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/", "metal_shelf.obj", scene, function (newMeshes) {
+          console.log(newMeshes)
+          const cap = newMeshes[1];
   
-      //     // The default camera looks at the back of the asset.
-      //     // Rotate the camera by 180 degrees to the front of the asset.
-      //     scene.activeCamera.alpha += Math.PI;
-      // });
+          // // cap.position.set(42, 260, 13);
+          
+          cap.scaling = new Vector3(10, 1, 1);
+        
+
+      });
       setFileControl({ ...fileControl, fileadd: false });
       }
 
       if (addData.addnew) {
-        if (!translategizmo) {
-          utilLayer = new UtilityLayerRenderer(scene);
-          // Create the gizmo and attach to the sphere
-          translategizmo = new PositionGizmo(utilLayer);
-          rotategizmo = new RotationGizmo(utilLayer);
 
-          highlight = new HighlightLayer(scene);
-        } else {
-          translategizmo.attachedMesh = null;
-          translategizmo.dispose();
-          rotategizmo.dispose();
-          utilLayer.dispose();
-          highlight.dispose();
-          utilLayer = new UtilityLayerRenderer(scene);
-          // Create the gizmo and attach to the sphere
-          translategizmo = new PositionGizmo(utilLayer);
-          rotategizmo = new RotationGizmo(utilLayer);
-          highlight = new HighlightLayer(scene);
-        }
-
-        translategizmo.attachedMesh = null;
-        // Keep the gizmo fixed to world rotation
-        translategizmo.updateGizmoRotationToMatchAttachedMesh = false;
-        translategizmo.updateGizmoPositionToMatchAttachedMesh = true;
-        rotategizmo.updateGizmoRotationToMatchAttachedMesh = false;
-        rotategizmo.updateGizmoPositionToMatchAttachedMesh = true;
-
-        scene.onPointerDown = function (evt, pickResult) {
-          // We try to pick an object
-
-          if (pickResult.hit) {
-            highlight.removeAllMeshes();
-            translategizmo.attachedMesh = pickResult.pickedMesh;
-            rotategizmo.attachedMesh = pickResult.pickedMesh;
-            highlight.addMesh(pickResult.pickedMesh, Color3.Magenta());
-          } else {
-            translategizmo.attachedMesh = null;
-            rotategizmo.attachedMesh = null;
-            highlight.removeAllMeshes();
-          }
-        };
         console.log("add new prime request");
         if (addData.primetype == "BOX") {
           const preBox = scene.getMeshByID(addData.primename);
