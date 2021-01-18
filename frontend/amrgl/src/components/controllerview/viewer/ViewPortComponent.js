@@ -64,6 +64,7 @@ const ViewPortComponent = (props) => {
         // We try to pick an object
 
         if (pickResult.hit) {
+          console.log(pickResult.pickedMesh.name);
           highlight.removeAllMeshes();
           translategizmo.attachedMesh = pickResult.pickedMesh;
           rotategizmo.attachedMesh = pickResult.pickedMesh;
