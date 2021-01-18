@@ -31,13 +31,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const AddComponent = (props) => {
+const BuiltInComponent = (props) => {
   const classes = useStyles();
-  const [primeData, setPrime] = React.useState({
-    primetype: "",
-    primename: "",
-    polyhydrontype: null,
-    addnew: false,
+  const [builtinData, setBuiltin] = React.useState({
+    builtintype: "",
+    builtinname: "",
+    builtinnew: false,
     positionx: null,
     positiony: null,
     positionz: null,
@@ -46,82 +45,27 @@ const AddComponent = (props) => {
     scalez: null,
   });
 
-  const handlePrimeChange = (event) => {
+  const handleBuiltinChange = (event) => {
     const name = event.target.name;
     const eventvalue = event.target.value;
-    if (event.target.value == "POLYHYDRON") {
-      // console.log('found')
-
-      (async () => {
-        console.log("selected Polyhydron, now choose type");
-        const { value: Polyhydrons } = await Swal.fire({
-          position: "top",
-          background: "black",
-          input: "select",
-          inputOptions: {
-            Polyhydrons: {
-              0: "Tetrahedron",
-              1: "Octahedron",
-              2: "Dodecahedron",
-              3: "Icosahedron",
-              4: "Rhombicuboctahedron",
-              5: "Triangular Prism",
-              6: "Pentagonal Prism",
-              7: "HexagonalPrism",
-              8: "Square Pyramid (J1)",
-              9: "Pentagonal Pyramid (J2)",
-              10: "Triangular Dipyramid (J12)",
-              11: "Pentagonal Dipyramid (J13)",
-              12: "Elongated Square Dipyramid (J15)",
-              13: "Elongated Pentagonal Dipyramid (J16)",
-              14: "Elongated Pentagonal Cupola (J20)",
-            },
-          },
-          inputPlaceholder: "Select a Polyhydron",
-          showCancelButton: true,
-          inputValidator: (value) => {
-            return new Promise((resolve) => {
-              resolve();
-            });
-          },
-        });
-        if (Polyhydrons) {
-          Swal.fire({
-            background: "black",
-            icon: "success",
-            text: "Selected",
-            showConfirmButton: false,
-            timer: 1500,
-          });
-          setPrime({
-            ...primeData,
-            primetype: eventvalue,
-            polyhydrontype: Polyhydrons,
-            addnew: false,
-          });
-        }
-      })();
-    } else {
-      setPrime({
-        ...primeData,
+    setBuiltin({
+        ...builtinData,
         [name]: event.target.value,
-        polyhydrontype: null,
-        addnew: false,
+        builtinnew: false,
       });
-    }
 
     //handle child state change
   };
 
   const handlePositionChange = (prop) => (event) => {
-    setPrime({ ...primeData, [prop]: event.target.value, addnew: false });
+    setBuiltin({ ...builtinData, [prop]: event.target.value, builtinnew: false });
     //handle child state change
   };
 
   const handleClickAddConfirm = () => {
-    setPrime({ ...primeData, addnew: true });
+    setBuiltin({ ...builtinData, builtinnew: true });
     if (props.onChange) {
-      props.onChange(primeData);
+      props.onChange(builtinData);
     }
   };
   return (
@@ -134,21 +78,21 @@ const AddComponent = (props) => {
             variant="filled"
             className={classes.textFieldtop}
           >
-            <InputLabel htmlFor="filled-age-native-simple">+ Primes (All Fields Required)</InputLabel>
+            <InputLabel htmlFor="filled-age-native-simple">+ Models (All Fields Required)</InputLabel>
             <Select
               native
-              value={primeData.primetype}
-              onChange={handlePrimeChange}
+              value={builtinData.builtintype}
+              onChange={handleBuiltinChange}
               inputProps={{
-                name: "primetype",
-                id: "filled-primes-native-simple",
+                name: "builtintype",
+                id: "filled-builtins-native-simple",
               }}
             >
               <option aria-label="None" value="" />
-              <option value={"BOX"}>BOX</option>
-              <option value={"SPHERE"}>SPHERE</option>
-              <option value={"CYLINDER"}>CYLINDER</option>
-              <option value={"POLYHYDRON"}>POLYHYDRON</option>
+              <option value={"Storage_Shelf_100x40x150"}>Storage Shelf 100x40x150</option>
+              <option value={"Wall"}>Wall</option>
+              <option value={"Floor"}>Floor</option>
+        
             </Select>
           </FormControl>
         </Grid>
@@ -166,7 +110,7 @@ const AddComponent = (props) => {
                   label="object name"
                   type="string"
                   // defaultValue = {values.planesize}
-                  onChange={handlePositionChange("primename")}
+                  onChange={handlePositionChange("builtinname")}
                   className={clsx(classes.margin, classes.textField)}
                   InputProps={
                     {
@@ -295,7 +239,7 @@ const AddComponent = (props) => {
                   color="secondary"
                   aria-label="confirm grid"
                   onClick={handleClickAddConfirm}
-                  color={primeData.addnew ? "primary" : "default"}
+                  color={builtinData.builtinnew ? "primary" : "default"}
                 >
                   <Confirm />
                 </Fab>
@@ -308,4 +252,4 @@ const AddComponent = (props) => {
   );
 };
 
-export default AddComponent;
+export default BuiltInComponent;

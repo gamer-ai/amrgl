@@ -25,7 +25,16 @@ let utilLayer = null;
 let highlight = null;
 
 const ViewPortComponent = (props) => {
-  const { settingData, setSettings, addData, setAdd, fileControl, setFileControl } = props;
+  const {
+    settingData,
+    setSettings,
+    addData,
+    setAdd,
+    fileControl,
+    setFileControl,
+    libraryData,
+    setBuiltin,
+  } = props;
   const sceneRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -109,25 +118,102 @@ const ViewPortComponent = (props) => {
 
         setSettings({ ...settingData, gridChange: false });
       }
-      if (fileControl.fileadd){
-        console.log(fileControl.file)
+      if (fileControl.fileadd) {
+        console.log(fileControl.file);
         //test
-        SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj", "", scene, function (newMeshes) {
-          console.log(newMeshes[1].name)
-          console.log(newMeshes)
+        SceneLoader.ImportMesh(
+          "",
+          "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj",
+          "",
+          scene,
+          function (newMeshes) {
+            console.log(newMeshes[1].name);
+            console.log(newMeshes);
 
-          let selectedBuiltIn = newMeshes[1];
-          // // cap.position.set(42, 260, 13);
-          selectedBuiltIn.scaling = new Vector3(1, 1, 1);
-
-        
-
-      });
-      setFileControl({ ...fileControl, fileadd: false });
+            let selectedBuiltIn = newMeshes[1];
+            // // cap.position.set(42, 260, 13);
+            selectedBuiltIn.scaling = new Vector3(1, 1, 1);
+          }
+        );
+        setFileControl({ ...fileControl, fileadd: false });
       }
+      if (libraryData.builtinnew) {
+        console.log("add new object from library request");
+        if (libraryData.builtintype == "Storage_Shelf_100x40x150") {
+          const preShelf = scene.getMeshByID(libraryData.builtinname);
 
+          console.log(preShelf);
+          if (preShelf) {
+            console.log("found exist!");
+            Swal.fire({
+              position: "top",
+              text:
+                "Do you want to edit an existing object, name: " +
+                libraryData.builtinname +
+                " ?",
+              showDenyButton: true,
+              background: "black",
+              allowOutsideClick: false,
+              confirmButtonText: `Confirm`,
+              denyButtonText: `Cancel`,
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                Swal.fire({
+                  background: "black",
+                  icon: "success",
+                  text: "Edited",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                preShelf.position = new Vector3(
+                  Number(libraryData.positionx),
+                  Number(libraryData.positiony),
+                  Number(libraryData.positionz)
+                );
+                preShelf.scaling = new Vector3(
+                  Number(libraryData.scalex),
+                  Number(libraryData.scaley),
+                  Number(libraryData.scalez)
+                );
+                setBuiltin({ ...libraryData, builtinnew: false });
+                //removed, need to untrack
+              } else if (result.isDenied) {
+                Swal.fire({
+                  background: "black",
+                  icon: "info",
+                  text: "Changes are not saved, please edit again",
+                });
+              }
+            });
+          } else {
+            console.log("imported new mesh!");
+            SceneLoader.ImportMesh(
+              "",
+              "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj",
+              "",
+              scene,
+              function (newMeshes) {
+                let selectedBuiltin = newMeshes[1];
+                selectedBuiltin.id = libraryData.builtinname;
+                console.log(selectedBuiltin.name);
+                selectedBuiltin.position = new Vector3(
+                  Number(libraryData.positionx),
+                  Number(libraryData.positiony),
+                  Number(libraryData.positionz)
+                );
+                selectedBuiltin.scaling = new Vector3(
+                  Number(libraryData.scalex),
+                  Number(libraryData.scaley),
+                  Number(libraryData.scalez)
+                );
+              }
+            );
+            setBuiltin({ ...libraryData, builtinnew: false });
+          }
+        }
+      }
       if (addData.addnew) {
-
         console.log("add new prime request");
         if (addData.primetype == "BOX") {
           const preBox = scene.getMeshByID(addData.primename);
@@ -414,7 +500,7 @@ const ViewPortComponent = (props) => {
         }
       }
     }
-  }, [settingData, addData, fileControl]);
+  }, [settingData, addData, fileControl, libraryData]);
 
   const onSceneReady = (scene) => {
     sceneRef.current = scene;

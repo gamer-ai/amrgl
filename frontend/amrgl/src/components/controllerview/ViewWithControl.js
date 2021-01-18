@@ -9,6 +9,7 @@ import LibraryAddIcon from '@material-ui/icons/LibraryAdd';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Setting from './settingtable/SettingComponent';
 import Upload from './uploadtable/UploadComponent';
+import Library from './builtintable/BuiltInComponent';
 import ViewPort from './viewer/ViewPortComponent';
 import './ViewWithControl.css'
 import Scaleline from './viewer/ScalelineComponent';
@@ -53,6 +54,18 @@ export default function FloatingActionButtons() {
     scalez: null,
   });
 
+  const [libraryData, setBuiltin] = React.useState({
+    buultintype: '',
+    builtinname: '',
+    builtinnew: false,
+    positionx: null,
+    positiony: null,
+    positionz: null,
+    scalex: null,
+    scaley: null,
+    scalez: null,
+  });
+
   const [fileControl, setFileControl] = React.useState( {
     file: "",
     fileadd: false,
@@ -64,6 +77,11 @@ export default function FloatingActionButtons() {
     } 
   };
 
+  const changeLibrary = data => {
+    if (data.builtintype != libraryData.builtintype || data.builtinname != libraryData.builtinname || data.positionx != libraryData.positionx || data.positiony != libraryData.positiony || data.positionz != libraryData.positionz || data.scalex != libraryData.scalex || data.scalez != libraryData.scalez || data.scaley != libraryData.scaley){
+      setBuiltin({ ...data, builtinnew:true})
+    } 
+  };
 
   const changeSettings = data => {
     if ((data.planesize != settingData.planesize || data.gridsize != settingData.gridsize || data.lightR != settingData.lightR || data.lightB != settingData.lightB || data.lightG != settingData.lightG)){
@@ -137,10 +155,11 @@ export default function FloatingActionButtons() {
       {values.showSettings && <div className ="SettingTable"><Setting onChange={changeSettings}></Setting></div>}
       {values.showAdd && <div className ="AddTable"><Add onChange={changeAdd} ></Add></div>}
       {values.showImport && <div className ="UploadTable"><Upload onChange={changeUpload}></Upload></div>}
+      {values.showLibrary && <div className ="LibraryTable"><Library onChange={changeLibrary}></Library></div>}
       </div>
     </div>
       <div className = "BottomView">
-      <ViewPort settingData = {settingData} setSettings = {setSettings} addData = {addData} setAdd = {setAdd} fileControl = {fileControl} setFileControl = {setFileControl}/>
+      <ViewPort settingData = {settingData} setSettings = {setSettings} addData = {addData} setAdd = {setAdd} fileControl = {fileControl} setFileControl = {setFileControl} libraryData = {libraryData} setBuiltin = {setBuiltin}/>
       </div>
       <div className ="Scaleline"><Scaleline>{settingData}</Scaleline></div>
     </div>
