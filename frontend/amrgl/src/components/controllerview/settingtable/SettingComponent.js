@@ -216,9 +216,9 @@ const GridSettings = props =>{
           <div className={classes.slidermargin} />
           <RedSlider valueLabelDisplay="auto" aria-label="pretto slider 2" defaultValue={0.45} min = {0} max = {1} step = {0.01} onChange={handleColorChange('lightR')}/>
           <div className={classes.slidermargin} />
-          <BlueSlider valueLabelDisplay="auto" aria-label="pretto slider 3" defaultValue={0.45} min = {0} max = {1} step = {0.01} onChange={handleColorChange('lightG')}/>
+          <BlueSlider valueLabelDisplay="auto" aria-label="pretto slider 3" defaultValue={0.45} min = {0} max = {1} step = {0.01} onChange={handleColorChange('lightB')}/>
           <div className={classes.slidermargin} />
-          <GreenSlider valueLabelDisplay="auto" aria-label="pretto slider 4" defaultValue={0.45} min = {0} max = {1} step = {0.01} onChange={handleColorChange('lightB')}/>
+          <GreenSlider valueLabelDisplay="auto" aria-label="pretto slider 4" defaultValue={0.45} min = {0} max = {1} step = {0.01} onChange={handleColorChange('lightG')}/>
         </div>
         </Grid>
         {/* <Grid item>
