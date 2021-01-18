@@ -1,6 +1,9 @@
 # This file uses centimeters as units for non-parametric coordinates.
 
+<<<<<<< HEAD
 mtllib metal_shelf.mtl
+=======
+>>>>>>> 5d78a02461e10df1b5b71537ce9e4217054e92cc
 g default
 v -47.982971 0.000000 1.465458
 v -48.753407 0.000000 0.405045
