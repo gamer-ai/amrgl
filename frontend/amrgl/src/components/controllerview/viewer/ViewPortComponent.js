@@ -113,11 +113,9 @@ const ViewPortComponent = (props) => {
         console.log(fileControl.file)
         //test
         SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/", "metal_shelf.obj", scene, function (newMeshes) {
-          console.log(newMeshes)
+          console.log(newMeshes[1].name)
           const cap = newMeshes[1];
-  
           // // cap.position.set(42, 260, 13);
-          
           cap.scaling = new Vector3(10, 1, 1);
         
 
