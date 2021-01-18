@@ -112,7 +112,7 @@ const ViewPortComponent = (props) => {
       if (fileControl.fileadd){
         console.log(fileControl.file)
         //test
-        SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/", "metal_shelf.obj", scene, function (newMeshes) {
+        SceneLoader.ImportMesh("", "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj", "", scene, function (newMeshes) {
           console.log(newMeshes[1].name)
           console.log(newMeshes)
 
