@@ -14,6 +14,7 @@ import {
   RotationGizmo,
   HighlightLayer,
   SceneLoader,
+  TransformNode,
 } from "@babylonjs/core";
 import { GridMaterial } from "@babylonjs/materials";
 import SceneComponent from "./SceneComponent";
@@ -80,6 +81,7 @@ const ViewPortComponent = (props) => {
 
         if (pickResult.hit) {
           console.log(pickResult.pickedMesh.name);
+          console.log(scene.meshes);
           highlight.removeAllMeshes();
           translategizmo.attachedMesh = pickResult.pickedMesh;
           rotategizmo.attachedMesh = pickResult.pickedMesh;
@@ -127,18 +129,24 @@ const ViewPortComponent = (props) => {
       if (fileControl.fileadd) {
         console.log(fileControl.file);
         //test
+        let root = new TransformNode();
         SceneLoader.ImportMesh(
           "",
           "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj",
           "",
           scene,
           function (newMeshes) {
-            console.log(newMeshes[1].name);
-            console.log(newMeshes);
-
-            let selectedBuiltIn = newMeshes[1];
+            newMeshes.forEach(mesh => {
+              // leave meshes already parented to maintain model hierarchy:
+              if (!mesh.parent) {
+                mesh.parent = root
+              }
+            })
+            // console.log(newMeshes[1].name);
+            // let selectedBuiltIn = newMeshes[1];
             // // cap.position.set(42, 260, 13);
-            selectedBuiltIn.scaling = new Vector3(1, 1, 1);
+            root.scaling = new Vector3(10, 1, 1);
+            console.log(root)
           }
         );
         setFileControl({ ...fileControl, fileadd: false });
@@ -146,7 +154,8 @@ const ViewPortComponent = (props) => {
       if (libraryData.builtinnew) {
         console.log("add new object from library request");
         if (libraryData.builtintype == "Storage_Shelf_100x150x40") {
-          const preShelf = scene.getMeshByID(libraryData.builtinname);
+          const preShelf = scene.getMeshByID(libraryData.builtinname) || scene.getNodeByID(libraryData.builtinname);
+          console.log(preShelf)
           if (preShelf) {
             console.log("found exist!");
             Swal.fire({
@@ -171,13 +180,28 @@ const ViewPortComponent = (props) => {
                   timer: 1500,
                 });
                 preShelf.dispose();
+                // const preShelfShadow = scene.getMeshByID(libraryData.builtinname + "shadow");
+                // if (preShelfShadow){
+                //   preShelfShadow.dispose();
+                // }
+                let selectedBuiltin = new TransformNode();
                 SceneLoader.ImportMesh(
                   "",
                   "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj",
                   "",
                   scene,
                   function (newMeshes) {
-                    let selectedBuiltin = newMeshes[1];
+                    //
+                    // let selectedBuiltInShadow = newMeshes[0];
+                    // selectedBuiltInShadow.id = libraryData.builtinname + 'shadow';
+                    //
+                    // let selectedBuiltin = newMeshes[1];
+                    newMeshes.forEach(mesh => {
+                      // leave meshes already parented to maintain model hierarchy:
+                      if (!mesh.parent) {
+                        mesh.parent = selectedBuiltin
+                      }
+                    })
                     selectedBuiltin.id = libraryData.builtinname;
                     selectedBuiltin.position = new Vector3(
                       Number(libraryData.positionx),
@@ -208,13 +232,24 @@ const ViewPortComponent = (props) => {
             });
           } else {
             console.log("imported new mesh!");
+            let selectedBuiltin = new TransformNode();
             SceneLoader.ImportMesh(
               "",
               "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj",
               "",
               scene,
               function (newMeshes) {
-                let selectedBuiltin = newMeshes[1];
+                newMeshes.forEach(mesh => {
+                  // leave meshes already parented to maintain model hierarchy:
+                  if (!mesh.parent) {
+                    mesh.parent = selectedBuiltin
+                  }
+                })
+                //
+                // let selectedBuiltInShadow = newMeshes[0];
+                // selectedBuiltInShadow.id = libraryData.builtinname + 'shadow';
+                //
+                // let selectedBuiltin = newMeshes[1];
                 selectedBuiltin.id = libraryData.builtinname;
                 selectedBuiltin.position = new Vector3(
                   Number(libraryData.positionx),
@@ -238,7 +273,7 @@ const ViewPortComponent = (props) => {
         }
         else if(libraryData.builtintype == "Wall_100x100x10"){
             console.log('wall imported')
-            const preWall = scene.getMeshByID(libraryData.builtinname);
+            const preWall = scene.getMeshByID(libraryData.builtinname) || scene.getNodeByID(libraryData.builtinname);
           if (preWall) {
             console.log("found exist!");
             Swal.fire({
@@ -329,7 +364,7 @@ const ViewPortComponent = (props) => {
       if (addData.addnew) {
         console.log("add new prime request");
         if (addData.primetype == "BOX") {
-          const preBox = scene.getMeshByID(addData.primename);
+          const preBox = scene.getMeshByID(addData.primename) || scene.getNodeByID(addData.primename);
           if (preBox) {
             Swal.fire({
               position: "top",
@@ -410,7 +445,7 @@ const ViewPortComponent = (props) => {
           }
           //Added, need to track
         } else if (addData.primetype == "SPHERE") {
-          const preSphere = scene.getMeshByID(addData.primename);
+          const preSphere = scene.getMeshByID(addData.primename) || scene.getNodeByID(addData.primename);
           if (preSphere) {
             Swal.fire({
               position: "top",
@@ -489,7 +524,7 @@ const ViewPortComponent = (props) => {
           }
           //Added, need to track
         } else if (addData.primetype == "CYLINDER") {
-          const preCylinder = scene.getMeshByID(addData.primename);
+          const preCylinder = scene.getMeshByID(addData.primename) || scene.getNodeByID(addData.primename);
           if (preCylinder) {
             Swal.fire({
               position: "top",
@@ -570,7 +605,7 @@ const ViewPortComponent = (props) => {
           }
           //Added, need to track
         } else if (addData.primetype == "POLYHYDRON") {
-          const prePolyhedron = scene.getMeshByID(addData.primename);
+          const prePolyhedron = scene.getMeshByID(addData.primename) || scene.getNodeByID(addData.primename);
           if (prePolyhedron) {
             Swal.fire({
               position: "top",
