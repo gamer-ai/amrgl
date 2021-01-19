@@ -7,14 +7,17 @@
    text-align: left;
     left: 3%;
     top: 3%;
-    z-index: 9999;
+    z-index: 99;
     position: absolute;
   }
 .Scaleline{
     position: absolute; 
     bottom: 3%;
     left: 50%;
-    z-index: 9999;
+    z-index: 99;
     transform: translate(-50%, -50%);
   }
   
+.swal2-container {
+    z-index: 1000;
+  }
