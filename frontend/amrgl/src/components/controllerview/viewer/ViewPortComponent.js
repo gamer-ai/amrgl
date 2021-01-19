@@ -148,7 +148,6 @@ const ViewPortComponent = (props) => {
         if (libraryData.builtintype == "Storage_Shelf_100x150x40") {
           const preShelf = scene.getMeshByID(libraryData.builtinname);
 
-          console.log(preShelf);
           if (preShelf) {
             console.log("found exist!");
             Swal.fire({
@@ -207,7 +206,6 @@ const ViewPortComponent = (props) => {
               function (newMeshes) {
                 let selectedBuiltin = newMeshes[1];
                 selectedBuiltin.id = libraryData.builtinname;
-                console.log(selectedBuiltin.name);
                 selectedBuiltin.position = new Vector3(
                   Number(libraryData.positionx),
                   Number(libraryData.positiony),
@@ -313,7 +311,6 @@ const ViewPortComponent = (props) => {
           }
           //Added, need to track
         } else if (addData.primetype == "SPHERE") {
-          console.log("sphere");
           const preSphere = scene.getMeshByID(addData.primename);
           if (preSphere) {
             Swal.fire({
