@@ -24,6 +24,12 @@ let rotategizmo = null;
 let utilLayer = null;
 let highlight = null;
 
+function degree_to_radians(degrees)
+{
+  var pi = Math.PI;
+  return degrees * (pi/180);
+}
+
 const ViewPortComponent = (props) => {
   const {
     settingData,
@@ -176,6 +182,11 @@ const ViewPortComponent = (props) => {
                   Number(libraryData.scaley),
                   Number(libraryData.scalez)
                 );
+                preShelf.rotation = new Vector3(
+                  degree_to_radians(Number(libraryData.rotationx)),
+                  degree_to_radians(Number(libraryData.rotationy)),
+                  degree_to_radians(Number(libraryData.rotationz))
+                );
                 setBuiltin({ ...libraryData, builtinnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
@@ -206,6 +217,11 @@ const ViewPortComponent = (props) => {
                   Number(libraryData.scalex),
                   Number(libraryData.scaley),
                   Number(libraryData.scalez)
+                );
+                selectedBuiltin.rotation = new Vector3(
+                  degree_to_radians(Number(libraryData.rotationx)),
+                  degree_to_radians(Number(libraryData.rotationy)),
+                  degree_to_radians(Number(libraryData.rotationz))
                 );
               }
             );
@@ -255,6 +271,11 @@ const ViewPortComponent = (props) => {
                   Number(addData.scaley),
                   Number(addData.scalez)
                 );
+                box.rotation = new Vector3(
+                  degree_to_radians(Number(addData.rotationx)),
+                  degree_to_radians(Number(addData.rotationy)),
+                  degree_to_radians(Number(addData.rotationz))
+                );
                 setAdd({ ...addData, addnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
@@ -282,6 +303,11 @@ const ViewPortComponent = (props) => {
               Number(addData.scalex),
               Number(addData.scaley),
               Number(addData.scalez)
+            );
+            box.rotation = new Vector3(
+              degree_to_radians(Number(addData.rotationx)),
+              degree_to_radians(Number(addData.rotationy)),
+              degree_to_radians(Number(addData.rotationz))
             );
             setAdd({ ...addData, addnew: false });
           }
@@ -327,6 +353,11 @@ const ViewPortComponent = (props) => {
                   Number(addData.scaley),
                   Number(addData.scalez)
                 );
+                sphere.rotation = new Vector3(
+                  degree_to_radians(Number(addData.rotationx)),
+                  degree_to_radians(Number(addData.rotationy)),
+                  degree_to_radians(Number(addData.rotationz))
+                );
                 setAdd({ ...addData, addnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
@@ -352,6 +383,11 @@ const ViewPortComponent = (props) => {
               Number(addData.scalex),
               Number(addData.scaley),
               Number(addData.scalez)
+            );                
+            sphere.rotation = new Vector3(
+              degree_to_radians(Number(addData.rotationx)),
+              degree_to_radians(Number(addData.rotationy)),
+              degree_to_radians(Number(addData.rotationz))
             );
             setAdd({ ...addData, addnew: false });
           }
@@ -397,6 +433,11 @@ const ViewPortComponent = (props) => {
                   Number(addData.scaley),
                   Number(addData.scalez)
                 );
+                cylinder.rotation = new Vector3(
+                  degree_to_radians(Number(addData.rotationx)),
+                  degree_to_radians(Number(addData.rotationy)),
+                  degree_to_radians(Number(addData.rotationz))
+                );
                 setAdd({ ...addData, addnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
@@ -423,6 +464,11 @@ const ViewPortComponent = (props) => {
               Number(addData.scalex),
               Number(addData.scaley),
               Number(addData.scalez)
+            );
+            cylinder.rotation = new Vector3(
+              degree_to_radians(Number(addData.rotationx)),
+              degree_to_radians(Number(addData.rotationy)),
+              degree_to_radians(Number(addData.rotationz))
             );
             setAdd({ ...addData, addnew: false });
           }
@@ -467,6 +513,11 @@ const ViewPortComponent = (props) => {
                   Number(addData.scaley),
                   Number(addData.scalez)
                 );
+                polyhedron.rotation = new Vector3(
+                  degree_to_radians(Number(addData.rotationx)),
+                  degree_to_radians(Number(addData.rotationy)),
+                  degree_to_radians(Number(addData.rotationz))
+                );
                 setAdd({ ...addData, addnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
@@ -493,6 +544,11 @@ const ViewPortComponent = (props) => {
               Number(addData.scalex),
               Number(addData.scaley),
               Number(addData.scalez)
+            );
+            polyhedron.rotation = new Vector3(
+              degree_to_radians(Number(addData.rotationx)),
+              degree_to_radians(Number(addData.rotationy)),
+              degree_to_radians(Number(addData.rotationz))
             );
             setAdd({ ...addData, addnew: false });
           }

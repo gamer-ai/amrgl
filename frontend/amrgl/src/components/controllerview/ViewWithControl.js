@@ -52,6 +52,9 @@ export default function FloatingActionButtons() {
     scalex: 100,
     scaley: 100,
     scalez: 100,
+    rotationx: 0,
+    rotationy: 0,
+    rotationz: 0,
   });
 
   const [libraryData, setBuiltin] = React.useState({
@@ -64,6 +67,9 @@ export default function FloatingActionButtons() {
     scalex: 1,
     scaley: 1,
     scalez: 1,
+    rotationx: 0,
+    rotationy: 0,
+    rotationz: 0,
   });
 
   const [fileControl, setFileControl] = React.useState( {
@@ -72,13 +78,13 @@ export default function FloatingActionButtons() {
   } );
 
   const changeAdd = data => {
-    if (data.primetype != addData.primetype || data.primename != addData.primename || data.positionx != addData.positionx || data.positiony != addData.positiony || data.positionz != addData.positionz || data.scalex != addData.scalex || data.scalez != addData.scalez || data.scaley != addData.scaley){
+    if (data.primetype != addData.primetype || data.primename != addData.primename || data.positionx != addData.positionx || data.positiony != addData.positiony || data.positionz != addData.positionz || data.scalex != addData.scalex || data.scalez != addData.scalez || data.scaley != addData.scaley || data.rotationx != addData.rotationx || data.rotationy != addData.rotationy || data.rotationz != addData.rotationz){
       setAdd({ ...data, addnew:true})
     } 
   };
 
   const changeLibrary = data => {
-    if (data.builtintype != libraryData.builtintype || data.builtinname != libraryData.builtinname || data.positionx != libraryData.positionx || data.positiony != libraryData.positiony || data.positionz != libraryData.positionz || data.scalex != libraryData.scalex || data.scalez != libraryData.scalez || data.scaley != libraryData.scaley){
+    if (data.builtintype != libraryData.builtintype || data.builtinname != libraryData.builtinname || data.positionx != libraryData.positionx || data.positiony != libraryData.positiony || data.positionz != libraryData.positionz || data.scalex != libraryData.scalex || data.scalez != libraryData.scalez || data.scaley != libraryData.scaley || data.rotationx != libraryData.rotationx || data.rotationy != libraryData.rotationy || data.rotationz != libraryData.rotationz){
       setBuiltin({ ...data, builtinnew:true})
     } 
   };

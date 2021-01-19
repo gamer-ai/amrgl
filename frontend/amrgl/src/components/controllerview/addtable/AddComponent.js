@@ -44,6 +44,9 @@ const AddComponent = (props) => {
     scalex: 100,
     scaley: 100,
     scalez: 100,
+    rotationx: 0,
+    rotationy: 0,
+    rotationz: 0,
   });
 
   const handlePrimeChange = (event) => {
@@ -231,6 +234,62 @@ const AddComponent = (props) => {
                   }}
                 />
               </Grid>
+
+              <Grid item>
+                <TextField
+                  size="small"
+                  id="filled-secondary-x"
+                  variant="filled"
+                  color="secondary"
+                  label="rotation-x (degree)"
+                  type="number"
+                  defaultValue = {primeData.rotationx}
+                  onChange={handlePositionChange("rotationx")}
+                  className={clsx(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">X:</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  size="small"
+                  id="filled-secondary-y"
+                  variant="filled"
+                  color="secondary"
+                  label="rotation-y (degree)"
+                  type="number"
+                  onChange={handlePositionChange("rotationy")}
+                 defaultValue = {primeData.rotationy}
+                  className={clsx(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">Y:</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  size="small"
+                  id="filled-secondary-z"
+                  variant="filled"
+                  color="secondary"
+                  label="rotation-z (degree)"
+                  type="number"
+                  onChange={handlePositionChange("rotationz")}
+                 defaultValue = {primeData.rotationz}
+                  className={clsx(classes.margin, classes.textField)}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">Z:</InputAdornment>
+                    ),
+                  }}
+                />
+              </Grid>
+
             </Grid>
           </Grid>
 
