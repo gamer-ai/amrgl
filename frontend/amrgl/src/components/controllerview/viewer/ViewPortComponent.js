@@ -145,7 +145,7 @@ const ViewPortComponent = (props) => {
       }
       if (libraryData.builtinnew) {
         console.log("add new object from library request");
-        if (libraryData.builtintype == "Storage_Shelf_100x40x150") {
+        if (libraryData.builtintype == "Storage_Shelf_100x150x40") {
           const preShelf = scene.getMeshByID(libraryData.builtinname);
 
           console.log(preShelf);

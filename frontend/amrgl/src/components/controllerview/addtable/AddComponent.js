@@ -122,10 +122,19 @@ const AddComponent = (props) => {
   };
 
   const handleClickAddConfirm = () => {
+    if (!primeData.primename){
+      Swal.fire({
+          background: "black",
+          icon: "info",
+          text: "Please assign a name for your object",
+        });
+  }
+  else{
     setPrime({ ...primeData, addnew: true });
     if (props.onChange) {
       props.onChange(primeData);
     }
+  }
   };
   return (
     <div>

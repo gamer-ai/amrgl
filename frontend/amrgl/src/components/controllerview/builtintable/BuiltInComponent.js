@@ -67,9 +67,18 @@ const BuiltInComponent = (props) => {
   };
 
   const handleClickAddConfirm = () => {
+    if (!builtinData.builtinname){
+        Swal.fire({
+            background: "black",
+            icon: "info",
+            text: "Please assign a name for your object",
+          });
+    }
+    else{
     setBuiltin({ ...builtinData, builtinnew: true });
     if (props.onChange) {
       props.onChange(builtinData);
+    }
     }
   };
   return (
@@ -98,7 +107,7 @@ const BuiltInComponent = (props) => {
               <option value={"Floor"}>Floor</option>
               </optgroup>
               <optgroup label="Shelf System">
-              <option value={"Storage_Shelf_100x40x150"}>Storage Shelf 100x40x150</option>
+              <option value={"Storage_Shelf_100x150x40"}>Storage Shelf 100x150x40</option>
               </optgroup>
             </Select>
           </FormControl>
