@@ -15,6 +15,7 @@ import {
   HighlightLayer,
   SceneLoader,
   TransformNode,
+  StandardMaterial,
 } from "@babylonjs/core";
 import { GridMaterial } from "@babylonjs/materials";
 import SceneComponent from "./SceneComponent";
@@ -25,10 +26,9 @@ let rotategizmo = null;
 let utilLayer = null;
 let highlight = null;
 
-function degree_to_radians(degrees)
-{
+function degree_to_radians(degrees) {
   var pi = Math.PI;
-  return degrees * (pi/180);
+  return degrees * (pi / 180);
 }
 
 const ViewPortComponent = (props) => {
@@ -44,11 +44,15 @@ const ViewPortComponent = (props) => {
   } = props;
   const sceneRef = React.useRef(null);
 
+
+
   React.useEffect(() => {
     const scene = sceneRef.current;
 
+
     if (scene) {
       // modify the plane, by dispose and rebuild adding to scene.
+
       if (!translategizmo) {
         utilLayer = new UtilityLayerRenderer(scene);
         // Create the gizmo and attach to the sphere
@@ -136,17 +140,17 @@ const ViewPortComponent = (props) => {
           "",
           scene,
           function (newMeshes) {
-            newMeshes.forEach(mesh => {
+            newMeshes.forEach((mesh) => {
               // leave meshes already parented to maintain model hierarchy:
               if (!mesh.parent) {
-                mesh.parent = root
+                mesh.parent = root;
               }
-            })
+            });
             // console.log(newMeshes[1].name);
             // let selectedBuiltIn = newMeshes[1];
             // // cap.position.set(42, 260, 13);
             root.scaling = new Vector3(10, 1, 1);
-            console.log(root)
+            console.log(root);
           }
         );
         setFileControl({ ...fileControl, fileadd: false });
@@ -154,8 +158,10 @@ const ViewPortComponent = (props) => {
       if (libraryData.builtinnew) {
         console.log("add new object from library request");
         if (libraryData.builtintype == "Storage_Shelf_100x150x40") {
-          const preShelf = scene.getMeshByID(libraryData.builtinname) || scene.getNodeByID(libraryData.builtinname);
-          console.log(preShelf)
+          const preShelf =
+            scene.getMeshByID(libraryData.builtinname) ||
+            scene.getNodeByID(libraryData.builtinname);
+          console.log(preShelf);
           if (preShelf) {
             console.log("found exist!");
             Swal.fire({
@@ -196,12 +202,12 @@ const ViewPortComponent = (props) => {
                     // selectedBuiltInShadow.id = libraryData.builtinname + 'shadow';
                     //
                     // let selectedBuiltin = newMeshes[1];
-                    newMeshes.forEach(mesh => {
+                    newMeshes.forEach((mesh) => {
                       // leave meshes already parented to maintain model hierarchy:
                       if (!mesh.parent) {
-                        mesh.parent = selectedBuiltin
+                        mesh.parent = selectedBuiltin;
                       }
-                    })
+                    });
                     selectedBuiltin.id = libraryData.builtinname;
                     selectedBuiltin.position = new Vector3(
                       Number(libraryData.positionx),
@@ -239,12 +245,12 @@ const ViewPortComponent = (props) => {
               "",
               scene,
               function (newMeshes) {
-                newMeshes.forEach(mesh => {
+                newMeshes.forEach((mesh) => {
                   // leave meshes already parented to maintain model hierarchy:
                   if (!mesh.parent) {
-                    mesh.parent = selectedBuiltin
+                    mesh.parent = selectedBuiltin;
                   }
-                })
+                });
                 //
                 // let selectedBuiltInShadow = newMeshes[0];
                 // selectedBuiltInShadow.id = libraryData.builtinname + 'shadow';
@@ -270,10 +276,11 @@ const ViewPortComponent = (props) => {
             );
             setBuiltin({ ...libraryData, builtinnew: false });
           }
-        }
-        else if(libraryData.builtintype == "Wall_100x100x10"){
-            console.log('wall imported')
-            const preWall = scene.getMeshByID(libraryData.builtinname) || scene.getNodeByID(libraryData.builtinname);
+        } else if (libraryData.builtintype == "Wall_100x100x10") {
+          console.log("wall imported");
+          const preWall =
+            scene.getMeshByID(libraryData.builtinname) ||
+            scene.getNodeByID(libraryData.builtinname);
           if (preWall) {
             console.log("found exist!");
             Swal.fire({
@@ -300,7 +307,7 @@ const ViewPortComponent = (props) => {
                 preWall.dispose();
                 let wall = MeshBuilder.CreateBox(
                   libraryData.builtinname,
-                  { width: 100, height:100, depth: 10 },
+                  { width: 100, height: 100, depth: 10 },
                   scene
                 );
                 wall.position = new Vector3(
@@ -329,42 +336,125 @@ const ViewPortComponent = (props) => {
               }
             });
           } else {
-              console.log("imported new mesh!");
-              let wall = MeshBuilder.CreateBox(
-                libraryData.builtinname,
-                { width: 100, height:100, depth: 10 },
-                scene
-              );
-                wall.position = new Vector3(
+            console.log("imported new mesh!");
+            let wall = MeshBuilder.CreateBox(
+              libraryData.builtinname,
+              { width: 100, height: 100, depth: 10 },
+              scene
+            );
+            wall.position = new Vector3(
+              Number(libraryData.positionx),
+              Number(libraryData.positiony),
+              Number(libraryData.positionz)
+            );
+            wall.scaling = new Vector3(
+              Number(libraryData.scalex),
+              Number(libraryData.scaley),
+              Number(libraryData.scalez)
+            );
+            wall.rotation = new Vector3(
+              degree_to_radians(Number(libraryData.rotationx)),
+              degree_to_radians(Number(libraryData.rotationy)),
+              degree_to_radians(Number(libraryData.rotationz))
+            );
+
+            setBuiltin({ ...libraryData, builtinnew: false });
+          }
+        } else if (libraryData.builtintype == "Floor_1000x1x1000") {
+          console.log("floor imported");
+          const preFloor =
+            scene.getMeshByID(libraryData.builtinname) ||
+            scene.getNodeByID(libraryData.builtinname);
+          if (preFloor) {
+            console.log("found exist!");
+            Swal.fire({
+              position: "top",
+              text:
+                "Do you want to edit an existing object, name: " +
+                libraryData.builtinname +
+                " ?",
+              showDenyButton: true,
+              background: "black",
+              allowOutsideClick: false,
+              confirmButtonText: `Confirm`,
+              denyButtonText: `Cancel`,
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                Swal.fire({
+                  background: "black",
+                  icon: "success",
+                  text: "Edited",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                preFloor.dispose();
+                let floor =  MeshBuilder.CreateBox(
+                  libraryData.builtinname,
+                  { width: 1000, height: 1, depth: 1000},
+                  scene
+                );
+                floor.position = new Vector3(
                   Number(libraryData.positionx),
                   Number(libraryData.positiony),
                   Number(libraryData.positionz)
                 );
-                wall.scaling = new Vector3(
+                floor.scaling = new Vector3(
                   Number(libraryData.scalex),
                   Number(libraryData.scaley),
                   Number(libraryData.scalez)
                 );
-                wall.rotation = new Vector3(
+                floor.rotation = new Vector3(
                   degree_to_radians(Number(libraryData.rotationx)),
                   degree_to_radians(Number(libraryData.rotationy)),
                   degree_to_radians(Number(libraryData.rotationz))
                 );
-            
+
+                
+                setBuiltin({ ...libraryData, builtinnew: false });
+                //removed, need to untrack
+              } else if (result.isDenied) {
+                Swal.fire({
+                  background: "black",
+                  icon: "info",
+                  text: "Changes are not saved, please edit again",
+                });
+              }
+            });
+          } else {
+            console.log("imported new mesh!");
+            let floor =  MeshBuilder.CreateBox(
+              libraryData.builtinname,
+              { width: 1000, height: 1, depth: 1000},
+              scene
+            );
+            floor.position = new Vector3(
+              Number(libraryData.positionx),
+              Number(libraryData.positiony),
+              Number(libraryData.positionz)
+            );
+            floor.scaling = new Vector3(
+              Number(libraryData.scalex),
+              Number(libraryData.scaley),
+              Number(libraryData.scalez)
+            );
+            floor.rotation = new Vector3(
+              degree_to_radians(Number(libraryData.rotationx)),
+              degree_to_radians(Number(libraryData.rotationy)),
+              degree_to_radians(Number(libraryData.rotationz))
+            );
             setBuiltin({ ...libraryData, builtinnew: false });
           }
-        }
-        else if (libraryData.builtintype == "Floor_1000x0x1000"){
-            console.log('floor')
-        }
-        else {
-          console.log('nothing selected')
+        } else {
+          console.log("nothing selected");
         }
       }
       if (addData.addnew) {
         console.log("add new prime request");
         if (addData.primetype == "BOX") {
-          const preBox = scene.getMeshByID(addData.primename) || scene.getNodeByID(addData.primename);
+          const preBox =
+            scene.getMeshByID(addData.primename) ||
+            scene.getNodeByID(addData.primename);
           if (preBox) {
             Swal.fire({
               position: "top",
@@ -445,7 +535,9 @@ const ViewPortComponent = (props) => {
           }
           //Added, need to track
         } else if (addData.primetype == "SPHERE") {
-          const preSphere = scene.getMeshByID(addData.primename) || scene.getNodeByID(addData.primename);
+          const preSphere =
+            scene.getMeshByID(addData.primename) ||
+            scene.getNodeByID(addData.primename);
           if (preSphere) {
             Swal.fire({
               position: "top",
@@ -514,7 +606,7 @@ const ViewPortComponent = (props) => {
               Number(addData.scalex),
               Number(addData.scaley),
               Number(addData.scalez)
-            );                
+            );
             sphere.rotation = new Vector3(
               degree_to_radians(Number(addData.rotationx)),
               degree_to_radians(Number(addData.rotationy)),
@@ -524,7 +616,9 @@ const ViewPortComponent = (props) => {
           }
           //Added, need to track
         } else if (addData.primetype == "CYLINDER") {
-          const preCylinder = scene.getMeshByID(addData.primename) || scene.getNodeByID(addData.primename);
+          const preCylinder =
+            scene.getMeshByID(addData.primename) ||
+            scene.getNodeByID(addData.primename);
           if (preCylinder) {
             Swal.fire({
               position: "top",
@@ -605,7 +699,9 @@ const ViewPortComponent = (props) => {
           }
           //Added, need to track
         } else if (addData.primetype == "POLYHYDRON") {
-          const prePolyhedron = scene.getMeshByID(addData.primename) || scene.getNodeByID(addData.primename);
+          const prePolyhedron =
+            scene.getMeshByID(addData.primename) ||
+            scene.getNodeByID(addData.primename);
           if (prePolyhedron) {
             Swal.fire({
               position: "top",
