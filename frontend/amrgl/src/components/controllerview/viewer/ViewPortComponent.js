@@ -147,7 +147,6 @@ const ViewPortComponent = (props) => {
         console.log("add new object from library request");
         if (libraryData.builtintype == "Storage_Shelf_100x150x40") {
           const preShelf = scene.getMeshByID(libraryData.builtinname);
-
           if (preShelf) {
             console.log("found exist!");
             Swal.fire({
@@ -171,20 +170,31 @@ const ViewPortComponent = (props) => {
                   showConfirmButton: false,
                   timer: 1500,
                 });
-                preShelf.position = new Vector3(
-                  Number(libraryData.positionx),
-                  Number(libraryData.positiony),
-                  Number(libraryData.positionz)
-                );
-                preShelf.scaling = new Vector3(
-                  Number(libraryData.scalex),
-                  Number(libraryData.scaley),
-                  Number(libraryData.scalez)
-                );
-                preShelf.rotation = new Vector3(
-                  degree_to_radians(Number(libraryData.rotationx)),
-                  degree_to_radians(Number(libraryData.rotationy)),
-                  degree_to_radians(Number(libraryData.rotationz))
+                preShelf.dispose();
+                SceneLoader.ImportMesh(
+                  "",
+                  "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj",
+                  "",
+                  scene,
+                  function (newMeshes) {
+                    let selectedBuiltin = newMeshes[1];
+                    selectedBuiltin.id = libraryData.builtinname;
+                    selectedBuiltin.position = new Vector3(
+                      Number(libraryData.positionx),
+                      Number(libraryData.positiony),
+                      Number(libraryData.positionz)
+                    );
+                    selectedBuiltin.scaling = new Vector3(
+                      Number(libraryData.scalex),
+                      Number(libraryData.scaley),
+                      Number(libraryData.scalez)
+                    );
+                    selectedBuiltin.rotation = new Vector3(
+                      degree_to_radians(Number(libraryData.rotationx)),
+                      degree_to_radians(Number(libraryData.rotationy)),
+                      degree_to_radians(Number(libraryData.rotationz))
+                    );
+                  }
                 );
                 setBuiltin({ ...libraryData, builtinnew: false });
                 //removed, need to untrack
@@ -225,6 +235,95 @@ const ViewPortComponent = (props) => {
             );
             setBuiltin({ ...libraryData, builtinnew: false });
           }
+        }
+        else if(libraryData.builtintype == "Wall_100x100x10"){
+            console.log('wall imported')
+            const preWall = scene.getMeshByID(libraryData.builtinname);
+          if (preWall) {
+            console.log("found exist!");
+            Swal.fire({
+              position: "top",
+              text:
+                "Do you want to edit an existing object, name: " +
+                libraryData.builtinname +
+                " ?",
+              showDenyButton: true,
+              background: "black",
+              allowOutsideClick: false,
+              confirmButtonText: `Confirm`,
+              denyButtonText: `Cancel`,
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+                Swal.fire({
+                  background: "black",
+                  icon: "success",
+                  text: "Edited",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                preWall.dispose();
+                let wall = MeshBuilder.CreateBox(
+                  libraryData.builtinname,
+                  { width: 100, height:100, depth: 10 },
+                  scene
+                );
+                wall.position = new Vector3(
+                  Number(libraryData.positionx),
+                  Number(libraryData.positiony),
+                  Number(libraryData.positionz)
+                );
+                wall.scaling = new Vector3(
+                  Number(libraryData.scalex),
+                  Number(libraryData.scaley),
+                  Number(libraryData.scalez)
+                );
+                wall.rotation = new Vector3(
+                  degree_to_radians(Number(libraryData.rotationx)),
+                  degree_to_radians(Number(libraryData.rotationy)),
+                  degree_to_radians(Number(libraryData.rotationz))
+                );
+                setBuiltin({ ...libraryData, builtinnew: false });
+                //removed, need to untrack
+              } else if (result.isDenied) {
+                Swal.fire({
+                  background: "black",
+                  icon: "info",
+                  text: "Changes are not saved, please edit again",
+                });
+              }
+            });
+          } else {
+              console.log("imported new mesh!");
+              let wall = MeshBuilder.CreateBox(
+                libraryData.builtinname,
+                { width: 100, height:100, depth: 10 },
+                scene
+              );
+                wall.position = new Vector3(
+                  Number(libraryData.positionx),
+                  Number(libraryData.positiony),
+                  Number(libraryData.positionz)
+                );
+                wall.scaling = new Vector3(
+                  Number(libraryData.scalex),
+                  Number(libraryData.scaley),
+                  Number(libraryData.scalez)
+                );
+                wall.rotation = new Vector3(
+                  degree_to_radians(Number(libraryData.rotationx)),
+                  degree_to_radians(Number(libraryData.rotationy)),
+                  degree_to_radians(Number(libraryData.rotationz))
+                );
+            
+            setBuiltin({ ...libraryData, builtinnew: false });
+          }
+        }
+        else if (libraryData.builtintype == "Floor_1000x0x1000"){
+            console.log('floor')
+        }
+        else {
+          console.log('nothing selected')
         }
       }
       if (addData.addnew) {

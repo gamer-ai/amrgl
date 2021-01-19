@@ -103,8 +103,8 @@ const BuiltInComponent = (props) => {
             >
               <option aria-label="None" value="" />
               <optgroup label="Base">
-              <option value={"Wall"}>Wall</option>
-              <option value={"Floor"}>Floor</option>
+              <option value={"Wall_100x100x10"}>Wall 100x100x10</option>
+              <option value={"Floor_1000x0x1000"}>Floor 1000x1000</option>
               </optgroup>
               <optgroup label="Shelf System">
               <option value={"Storage_Shelf_100x150x40"}>Storage Shelf 100x150x40</option>
