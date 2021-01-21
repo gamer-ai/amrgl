@@ -46,6 +46,8 @@ const ViewPortComponent = (props) => {
     setBuiltin,
     externalData,
     setExternal,
+    assetManagerData,
+    setAssetManager,
   } = props;
   const sceneRef = React.useRef(null);
 
@@ -85,35 +87,15 @@ const ViewPortComponent = (props) => {
       scene.onPointerDown = function (evt, pickResult) {
         // We try to pick an object
         if (pickResult.hit) {
+          console.log(assetManagerData)
           console.log(pickResult.pickedMesh.name);
           console.log("current scene meshes:", scene.meshes.length);
           highlight.removeAllMeshes();
-          if (pickResult.pickedMesh.parent) {
+          if (pickResult.pickedMesh.parent && assetManagerData.switchtoparent) {
             console.log(pickResult.pickedMesh.parent.getChildMeshes());
-            Swal.fire({
-              position: "top",
-              text:
-                "Confirm to select the mesh parent node: " +
-                pickResult.pickedMesh.parent.id +
-                "; Cancel to select the picked component",
-              showDenyButton: true,
-              background: "black",
-              allowOutsideClick: false,
-              confirmButtonText: `Confirm`,
-              denyButtonText: `Cancel`,
-            }).then((result) => {
-              /* Read more about isConfirmed, isDenied below */
-              if (result.isConfirmed) {
 
-                translategizmo.attachedNode = pickResult.pickedMesh.parent;
-                rotategizmo.attachedNode = pickResult.pickedMesh.parent;
-              } else if (result.isDenied) {
-
-                translategizmo.attachedMesh = pickResult.pickedMesh;
-                rotategizmo.attachedMesh = pickResult.pickedMesh;
-                highlight.addMesh(pickResult.pickedMesh, Color3.Magenta());
-              }
-            });
+            translategizmo.attachedMesh = pickResult.pickedMesh.parent;
+            rotategizmo.attachedMesh = pickResult.pickedMesh.parent;
           } else {
             translategizmo.attachedMesh = pickResult.pickedMesh;
             rotategizmo.attachedMesh = pickResult.pickedMesh;
@@ -967,7 +949,7 @@ const ViewPortComponent = (props) => {
         }
       }
     }
-  }, [settingData, addData, fileControl, libraryData, externalData]);
+  }, [settingData, addData, fileControl, libraryData, externalData, assetManagerData]);
 
   const onSceneReady = (scene) => {
     sceneRef.current = scene;

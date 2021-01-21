@@ -10,6 +10,13 @@
     z-index: 99;
     position: absolute;
   }
+.AssetManager{
+    text-align: left;
+     right: 3%;
+     top: 3%;
+     z-index: 99;
+     position: absolute;
+  }
 .Scaleline{
     position: absolute; 
     bottom: 3%;

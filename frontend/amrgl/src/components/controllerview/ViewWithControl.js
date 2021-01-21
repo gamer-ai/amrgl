@@ -1,12 +1,20 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Fab from "@material-ui/core/Fab";
+import Button from '@material-ui/core/Button';
 import AddIcon from "@material-ui/icons/Add";
 import EditIcon from "@material-ui/icons/Edit";
 import SetIcon from "@material-ui/icons/TuneTwoTone";
 import DownloadIcon from "@material-ui/icons/GetAppRounded";
 import LibraryAddIcon from "@material-ui/icons/LibraryAdd";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Grid from "@material-ui/core/Grid";
+import FormLabel from "@material-ui/core/FormLabel";
+import FormControl from "@material-ui/core/FormControl";
+import FormGroup from "@material-ui/core/FormGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import Switch from "@material-ui/core/Switch";
 import Setting from "./settingtable/SettingComponent";
 import Upload from "./uploadtable/UploadComponent";
 import Library from "./builtintable/BuiltInComponent";
@@ -22,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     "& > *": {
       marginRight: theme.spacing(2),
+      fontsize: 12,
     },
   },
   extendedIcon: {
@@ -80,9 +89,9 @@ export default function FloatingActionButtons() {
     positionx: 0,
     positiony: 0,
     positionz: 0,
-    scalex: 1,
-    scaley: 1,
-    scalez: 1,
+    scalex: 100,
+    scaley: 100,
+    scalez: 100,
     rotationx: 0,
     rotationy: 0,
     rotationz: 0,
@@ -181,6 +190,11 @@ export default function FloatingActionButtons() {
     showLibrary: false,
   });
 
+  const [assetManagerData, setAssetManager] = React.useState({
+    showAssetManager: true,
+    switchtoparent: false,
+  });
+
   const handleSettingClick = () => {
     setValues({
       showImport: false,
@@ -188,6 +202,13 @@ export default function FloatingActionButtons() {
       showAdd: false,
       showLibrary: false,
       showSettings: !values.showSettings,
+    });
+  };
+
+  const handleSwitchClick = () => {
+    setAssetManager({
+      ...assetManagerData,
+      switchtoparent: !assetManagerData.switchtoparent,
     });
   };
   const handleAddClick = () => {
@@ -253,15 +274,11 @@ export default function FloatingActionButtons() {
           >
             <FontAwesomeIcon icon={faFileUpload} size="lg" />
           </Fab>
-          <Fab size="small" aria-label="edit">
-            <EditIcon />
-          </Fab>
-          <Fab size="small" aria-label="delete">
-            <DeleteIcon />
-          </Fab>
+
           <Fab size="small" aria-label="download">
             <DownloadIcon />
           </Fab>
+
           {values.showSettings && (
             <div className="SettingTable">
               <Setting onChange={changeSettings}></Setting>
@@ -284,6 +301,42 @@ export default function FloatingActionButtons() {
           )}
         </div>
       </div>
+
+
+      {assetManagerData.showAssetManager && (
+        <div className="AssetManager">
+        <Grid container direction="column" alignItems="left">
+          <Grid item>
+          <Fab size="small" aria-label="edit">
+            <EditIcon />
+          </Fab>
+          <Fab size="small" aria-label="delete">
+            <DeleteIcon />
+          </Fab>
+          </Grid>
+          <Grid item>
+          {/* <Button onClick={handleSwitchClick} variant="contained" color={assetManagerData.switchtoparent ? "primary" : "default"} >Select with Parent Node</Button> */}
+          <FormControl component="fieldset">
+            <FormHelperText>Selection Mode</FormHelperText>
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Switch
+                    checked={assetManagerData.switchtoparent}
+                    onChange={handleSwitchClick}
+                    name="selection-mode"
+                  />
+                }
+                label="select root"
+              />
+            </FormGroup>
+          </FormControl>
+          </Grid>
+      </Grid>
+        </div>
+      )}
+
+
       <div className="BottomView">
         <ViewPort
           settingData={settingData}
@@ -296,6 +349,8 @@ export default function FloatingActionButtons() {
           setBuiltin={setBuiltin}
           externalData={externalData}
           setExternal={setExternal}
+          assetManagerData={assetManagerData}
+          setAssetManager={setAssetManager}
         />
       </div>
       <div className="Scaleline">
