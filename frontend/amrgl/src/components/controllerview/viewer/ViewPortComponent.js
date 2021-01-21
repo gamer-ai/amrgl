@@ -41,6 +41,8 @@ const ViewPortComponent = (props) => {
     setFileControl,
     libraryData,
     setBuiltin,
+    externalData,
+    setExternal,
   } = props;
   const sceneRef = React.useRef(null);
 
@@ -134,6 +136,8 @@ const ViewPortComponent = (props) => {
         console.log(fileControl.file);
         //test
         let root = new TransformNode();
+        //https://raw.githubusercontent.com/MUYANGGUO/xeogl/master/examples/models/obj/CyberCity3D/Miami_Sample.obj
+        //https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj
         SceneLoader.ImportMesh(
           "",
           "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj",
@@ -783,7 +787,7 @@ const ViewPortComponent = (props) => {
         }
       }
     }
-  }, [settingData, addData, fileControl, libraryData]);
+  }, [settingData, addData, fileControl, libraryData, externalData]);
 
   const onSceneReady = (scene) => {
     sceneRef.current = scene;
