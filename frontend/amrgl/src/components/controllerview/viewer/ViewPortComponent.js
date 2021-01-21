@@ -2,6 +2,7 @@ import React from "react";
 // import * as BABYLON from 'babylonjs';
 // import 'babylonjs-loaders';
 import "@babylonjs/loaders/OBJ";
+
 import {
   ArcRotateCamera,
   Color3,
@@ -46,11 +47,8 @@ const ViewPortComponent = (props) => {
   } = props;
   const sceneRef = React.useRef(null);
 
-
-
   React.useEffect(() => {
     const scene = sceneRef.current;
-
 
     if (scene) {
       // modify the plane, by dispose and rebuild adding to scene.
@@ -84,14 +82,41 @@ const ViewPortComponent = (props) => {
 
       scene.onPointerDown = function (evt, pickResult) {
         // We try to pick an object
-
         if (pickResult.hit) {
           console.log(pickResult.pickedMesh.name);
-          console.log(scene.meshes);
+          console.log("current scene meshes:", scene.meshes.length);
           highlight.removeAllMeshes();
-          translategizmo.attachedMesh = pickResult.pickedMesh;
-          rotategizmo.attachedMesh = pickResult.pickedMesh;
-          highlight.addMesh(pickResult.pickedMesh, Color3.Magenta());
+          if (pickResult.pickedMesh.parent) {
+            console.log(pickResult.pickedMesh.parent.getChildMeshes());
+            Swal.fire({
+              position: "top",
+              text:
+                "Confirm to select the mesh parent node: " +
+                pickResult.pickedMesh.parent.id +
+                "; Cancel to select the picked component",
+              showDenyButton: true,
+              background: "black",
+              allowOutsideClick: false,
+              confirmButtonText: `Confirm`,
+              denyButtonText: `Cancel`,
+            }).then((result) => {
+              /* Read more about isConfirmed, isDenied below */
+              if (result.isConfirmed) {
+
+                translategizmo.attachedNode = pickResult.pickedMesh.parent;
+                rotategizmo.attachedNode = pickResult.pickedMesh.parent;
+              } else if (result.isDenied) {
+
+                translategizmo.attachedMesh = pickResult.pickedMesh;
+                rotategizmo.attachedMesh = pickResult.pickedMesh;
+                highlight.addMesh(pickResult.pickedMesh, Color3.Magenta());
+              }
+            });
+          } else {
+            translategizmo.attachedMesh = pickResult.pickedMesh;
+            rotategizmo.attachedMesh = pickResult.pickedMesh;
+            highlight.addMesh(pickResult.pickedMesh, Color3.Magenta());
+          }
         } else {
           translategizmo.attachedMesh = null;
           rotategizmo.attachedMesh = null;
@@ -150,9 +175,6 @@ const ViewPortComponent = (props) => {
                 mesh.parent = root;
               }
             });
-            // console.log(newMeshes[1].name);
-            // let selectedBuiltIn = newMeshes[1];
-            // // cap.position.set(42, 260, 13);
             root.scaling = new Vector3(10, 1, 1);
             console.log(root);
           }
@@ -195,6 +217,8 @@ const ViewPortComponent = (props) => {
                 //   preShelfShadow.dispose();
                 // }
                 let selectedBuiltin = new TransformNode();
+                //test : https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj
+                // test: https://raw.githubusercontent.com/MUYANGGUO/xeogl/master/examples/models/obj/sportsCar/sportsCar.obj
                 SceneLoader.ImportMesh(
                   "",
                   "https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj",
@@ -255,11 +279,7 @@ const ViewPortComponent = (props) => {
                     mesh.parent = selectedBuiltin;
                   }
                 });
-                //
-                // let selectedBuiltInShadow = newMeshes[0];
-                // selectedBuiltInShadow.id = libraryData.builtinname + 'shadow';
-                //
-                // let selectedBuiltin = newMeshes[1];
+
                 selectedBuiltin.id = libraryData.builtinname;
                 selectedBuiltin.position = new Vector3(
                   Number(libraryData.positionx),
@@ -393,9 +413,9 @@ const ViewPortComponent = (props) => {
                   timer: 1500,
                 });
                 preFloor.dispose();
-                let floor =  MeshBuilder.CreateBox(
+                let floor = MeshBuilder.CreateBox(
                   libraryData.builtinname,
-                  { width: 1000, height: 1, depth: 1000},
+                  { width: 1000, height: 1, depth: 1000 },
                   scene
                 );
                 floor.position = new Vector3(
@@ -414,7 +434,6 @@ const ViewPortComponent = (props) => {
                   degree_to_radians(Number(libraryData.rotationz))
                 );
 
-                
                 setBuiltin({ ...libraryData, builtinnew: false });
                 //removed, need to untrack
               } else if (result.isDenied) {
@@ -427,9 +446,9 @@ const ViewPortComponent = (props) => {
             });
           } else {
             console.log("imported new mesh!");
-            let floor =  MeshBuilder.CreateBox(
+            let floor = MeshBuilder.CreateBox(
               libraryData.builtinname,
-              { width: 1000, height: 1, depth: 1000},
+              { width: 1000, height: 1, depth: 1000 },
               scene
             );
             floor.position = new Vector3(
@@ -451,6 +470,131 @@ const ViewPortComponent = (props) => {
           }
         } else {
           console.log("nothing selected");
+        }
+      }
+      if (externalData.externalnew) {
+        const preExternal =
+          scene.getMeshByID(externalData.externalname) ||
+          scene.getNodeByID(externalData.externalname);
+        console.log(preExternal);
+        if (preExternal) {
+          console.log("found exist!");
+          Swal.fire({
+            position: "top",
+            text:
+              "Do you want to edit an existing object, name: " +
+              externalData.externalname +
+              " ?",
+            showDenyButton: true,
+            background: "black",
+            allowOutsideClick: false,
+            confirmButtonText: `Confirm`,
+            denyButtonText: `Cancel`,
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              Swal.fire({
+                background: "black",
+                icon: "success",
+                text: "Edited",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              preExternal.dispose();
+
+              let selectedExternal = new TransformNode();
+              SceneLoader.ImportMeshAsync(
+                "",
+                externalData.externalurl,
+                "",
+                scene
+              )
+                .then(async function (result) {
+                  await Promise.all(
+                    result.meshes.map(function (mesh) {
+                      if (!mesh.parent) {
+                        mesh.parent = selectedExternal;
+                      }
+                      // mesh.isPickable = false;
+                    })
+                  );
+
+                  selectedExternal.id = externalData.externalname;
+                  selectedExternal.position = new Vector3(
+                    Number(externalData.positionx),
+                    Number(externalData.positiony),
+                    Number(externalData.positionz)
+                  );
+                  selectedExternal.scaling = new Vector3(
+                    Number(externalData.scalex),
+                    Number(externalData.scaley),
+                    Number(externalData.scalez)
+                  );
+                  selectedExternal.rotation = new Vector3(
+                    degree_to_radians(Number(externalData.rotationx)),
+                    degree_to_radians(Number(externalData.rotationy)),
+                    degree_to_radians(Number(externalData.rotationz))
+                  );
+                })
+                .then(() => {
+                  console.log("imported!");
+                  setExternal({ ...externalData, isloading: false, externalnew: false });
+                });
+
+              //removed, need to untrack
+            } else if (result.isDenied) {
+              Swal.fire({
+                background: "black",
+                icon: "info",
+                text: "Changes are not saved, please edit again",
+              });
+            }
+          });
+        } else {
+          console.log("imported new mesh!");
+          let selectedExternal = new TransformNode();
+          //"https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj"
+          SceneLoader.ImportMeshAsync("", externalData.externalurl, "", scene)
+            .then(
+              async function (result) {
+                console.log('is loading now')
+                setExternal({ ...externalData, isloading: true, externalnew: false });
+                await Promise.all(
+                  result.meshes.map(function (mesh) {
+                    if (!mesh.parent) {
+                      mesh.parent = selectedExternal;
+                    }
+                    // mesh.isPickable = false;
+                  })
+                );
+                console.log('loading is done')
+                
+
+                selectedExternal.id = externalData.externalname;
+                // selectedExternal.isPickable = true;
+                selectedExternal.position = new Vector3(
+                  Number(externalData.positionx),
+                  Number(externalData.positiony),
+                  Number(externalData.positionz)
+                );
+                selectedExternal.scaling = new Vector3(
+                  Number(externalData.scalex),
+                  Number(externalData.scaley),
+                  Number(externalData.scalez)
+                );
+                selectedExternal.rotation = new Vector3(
+                  degree_to_radians(Number(externalData.rotationx)),
+                  degree_to_radians(Number(externalData.rotationy)),
+                  degree_to_radians(Number(externalData.rotationz))
+                );
+              }
+
+            )
+            .then(() => {
+              console.log("imported!");
+              setExternal({ ...externalData, isloading: false, externalnew: false });
+            });
+
         }
       }
       if (addData.addnew) {

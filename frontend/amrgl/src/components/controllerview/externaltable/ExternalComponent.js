@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ExternalComponent = (props) => {
+  
   const classes = useStyles();
   const [externalData, setExternal] = React.useState({
     externaltype: "",
@@ -48,6 +49,7 @@ const ExternalComponent = (props) => {
     rotationx: 0,
     rotationy: 0,
     rotationz: 0,
+    isloading: false,
   });
 
   const handleExternalChange = (event) => {
@@ -85,12 +87,13 @@ const ExternalComponent = (props) => {
         text: "Please assign a name for your object",
       });
     } else {
-      setExternal({ ...externalData, externalnew: true });
+      setExternal({ ...externalData, isloading: true, externalnew: true });
       if (props.onChange) {
         props.onChange(externalData);
       }
     }
   };
+
   return (
     <div>
       <div className={classes.margin}></div>
@@ -129,7 +132,6 @@ const ExternalComponent = (props) => {
               color="secondary"
               label="Paste URL below:"
               type="string"
-              // defaultValue = {values.planesize}
               onChange={handlePositionChange("externalurl")}
               className={clsx(classes.margin, classes.textFieldtop)}
               InputProps={
@@ -363,6 +365,19 @@ const ExternalComponent = (props) => {
                   <Confirm />
                 </Fab>
               </Grid>
+
+              <Grid item>
+                <Fab
+                  size="small"
+                  color="secondary"
+                  aria-label="confirm grid"
+                  color={externalData.externalnew ? "primary" : "secondary"}
+                >
+                  <Confirm />
+                </Fab>
+              </Grid>
+
+              
             </Grid>
           </Grid>
         </Grid>
