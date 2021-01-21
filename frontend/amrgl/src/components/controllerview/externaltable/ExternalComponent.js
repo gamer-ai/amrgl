@@ -49,7 +49,6 @@ const ExternalComponent = (props) => {
     rotationx: 0,
     rotationy: 0,
     rotationz: 0,
-    isloading: false,
   });
 
   const handleExternalChange = (event) => {
@@ -87,7 +86,7 @@ const ExternalComponent = (props) => {
         text: "Please assign a name for your object",
       });
     } else {
-      setExternal({ ...externalData, isloading: true, externalnew: true });
+      setExternal({ ...externalData, externalnew: true });
       if (props.onChange) {
         props.onChange(externalData);
       }
@@ -366,16 +365,6 @@ const ExternalComponent = (props) => {
                 </Fab>
               </Grid>
 
-              <Grid item>
-                <Fab
-                  size="small"
-                  color="secondary"
-                  aria-label="confirm grid"
-                  color={externalData.externalnew ? "primary" : "secondary"}
-                >
-                  <Confirm />
-                </Fab>
-              </Grid>
 
               
             </Grid>

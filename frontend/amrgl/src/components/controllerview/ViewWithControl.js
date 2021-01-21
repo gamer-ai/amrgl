@@ -86,7 +86,6 @@ export default function FloatingActionButtons() {
     rotationx: 0,
     rotationy: 0,
     rotationz: 0,
-    isloading: false,
   });
 
   const [fileControl, setFileControl] = React.useState({
@@ -143,12 +142,10 @@ export default function FloatingActionButtons() {
       data.scaley != externalData.scaley ||
       data.rotationx != externalData.rotationx ||
       data.rotationy != externalData.rotationy ||
-      data.rotationz != externalData.rotationz ||
-      data.isloading != externalData.isloading
- 
-   
+      data.rotationz != externalData.rotationz
+
     ) {
-      setExternal({ ...data, isloading: false, externalnew: true });
+      setExternal({ ...data, externalnew: true });
     }
   };
 
@@ -297,8 +294,8 @@ export default function FloatingActionButtons() {
           setFileControl={setFileControl}
           libraryData={libraryData}
           setBuiltin={setBuiltin}
-          externalData = {externalData}
-          setExternal = {setExternal}
+          externalData={externalData}
+          setExternal={setExternal}
         />
       </div>
       <div className="Scaleline">

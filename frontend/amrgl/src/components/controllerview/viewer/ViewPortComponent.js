@@ -32,6 +32,8 @@ function degree_to_radians(degrees) {
   return degrees * (pi / 180);
 }
 
+
+
 const ViewPortComponent = (props) => {
   const {
     settingData,
@@ -503,6 +505,20 @@ const ViewPortComponent = (props) => {
               preExternal.dispose();
 
               let selectedExternal = new TransformNode();
+              Swal.fire({
+                text: 'loading ...',
+                background: "black",
+                onBeforeOpen () {
+                  Swal.showLoading ()
+                },
+                onAfterClose () {
+                  Swal.hideLoading()
+                },
+                allowOutsideClick: false,
+                showConfirmButton: false,
+                allowEscapeKey: false,
+                allowEnterKey: false
+              })
               SceneLoader.ImportMeshAsync(
                 "",
                 externalData.externalurl,
@@ -538,7 +554,8 @@ const ViewPortComponent = (props) => {
                 })
                 .then(() => {
                   console.log("imported!");
-                  setExternal({ ...externalData, isloading: false, externalnew: false });
+                  setExternal({ ...externalData,  externalnew: false });
+                  Swal.close();
                 });
 
               //removed, need to untrack
@@ -552,13 +569,29 @@ const ViewPortComponent = (props) => {
           });
         } else {
           console.log("imported new mesh!");
+
+          Swal.fire({
+            text: 'loading ...',
+            background: "black",
+            onBeforeOpen () {
+              Swal.showLoading ()
+            },
+            onAfterClose () {
+              Swal.hideLoading()
+            },
+            allowOutsideClick: false,
+            showConfirmButton: false,
+            allowEscapeKey: false,
+            allowEnterKey: false
+          })
+
           let selectedExternal = new TransformNode();
           //"https://raw.githubusercontent.com/gamer-ai/amrgl/main/frontend/amrgl/src/assets/example/metal_shelf.obj"
           SceneLoader.ImportMeshAsync("", externalData.externalurl, "", scene)
             .then(
               async function (result) {
                 console.log('is loading now')
-                setExternal({ ...externalData, isloading: true, externalnew: false });
+                setExternal({ ...externalData,  externalnew: false });
                 await Promise.all(
                   result.meshes.map(function (mesh) {
                     if (!mesh.parent) {
@@ -592,8 +625,11 @@ const ViewPortComponent = (props) => {
             )
             .then(() => {
               console.log("imported!");
-              setExternal({ ...externalData, isloading: false, externalnew: false });
+              setExternal({ ...externalData,  externalnew: false });
+              Swal.close();
             });
+            
+
 
         }
       }
